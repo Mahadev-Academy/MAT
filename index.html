@@ -50,6 +50,25 @@ body{
   border-radius:10px;
   margin-top:10px;
 }
+  .input-box{
+  display:flex;
+  align-items:center;
+  background:#f1f3f6;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:12px;
+}
+
+.input-box input{
+  border:none;
+  outline:none;
+  background:none;
+  flex:1;
+  font-size:14px;
+}
+  .input-box{
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
 </style>
 </head>
 
@@ -66,8 +85,13 @@ body{
     <h2>Welcome Back</h2>
     <p>Login to continue</p>
 
-    <input placeholder="Mobile / Student ID"><br><br>
-    <input placeholder="Password"><br>
+<div class="input-box">
+  📱 <input placeholder="Mobile / Student ID">
+</div>
+
+<div class="input-box">
+  🔒 <input type="password" placeholder="Password">
+</div>
 
     <button class="btn">Login</button>
   </div>
