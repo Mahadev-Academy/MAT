@@ -1,4 +1,3 @@
-<script>
 let app;
 const API = "https://script.google.com/macros/s/AKfycbz8g8EOToM5_mPjadVaxaWKph9ZvJ8T6jBAKaLhLmPLVlPTrs6U_ikKoekJ_LTKZdGDOQ/exec";
 
@@ -1830,7 +1829,4 @@ function goToQuestion(index){
     });
 
   }
-
 }
-
-</script>
