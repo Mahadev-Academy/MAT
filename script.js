@@ -412,7 +412,10 @@ let totalVisibleTests = 0;
 
 if(
   t.status === "Active" &&
-  String(t.class) === String(window.studentClass)
+  (
+    String(t.class) === String(window.studentClass) ||
+    String(t.class).toUpperCase() === "ALL"
+  )
 ){
 
   totalVisibleTests++;
