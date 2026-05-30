@@ -2027,3 +2027,69 @@ function startDailyCountdown(){
   update();
   setInterval(update,1000);
 }
+
+
+
+function goToQuestion(index){
+
+  const question =
+    document.getElementById(
+      `question-${index}`
+    );
+
+  if(!question) return;
+
+  document
+    .querySelectorAll(".nav-dot")
+    .forEach(dot =>
+      dot.classList.remove("nav-active")
+    );
+
+  document
+    .getElementById(`nav-${index}`)
+    ?.classList.add("nav-active");
+
+  question.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+window.addEventListener("scroll", () => {
+
+  globalQuestions.forEach((q,index)=>{
+
+    const el =
+      document.getElementById(
+        `question-${index}`
+      );
+
+    if(!el) return;
+
+    const rect =
+      el.getBoundingClientRect();
+
+    if(rect.top < 250 &&
+       rect.bottom > 250){
+
+      document
+        .querySelectorAll(".nav-dot")
+        .forEach(dot =>
+          dot.classList.remove(
+            "nav-active"
+          )
+        );
+
+      document
+        .getElementById(
+          `nav-${index}`
+        )
+        ?.classList.add(
+          "nav-active"
+        );
+
+    }
+
+  });
+
+});
