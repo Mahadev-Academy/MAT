@@ -1997,7 +1997,7 @@ function startDailyCountdown(){
     let next = new Date();
 
     // Today 11:00 AM
-    next.setHours(11,49,0,0);
+    next.setHours(13,30,0,0);
 
     // If 11 AM already passed,
     // move target to tomorrow 11 AM
