@@ -70,6 +70,190 @@ function showLogin(){
      <div id="loginStatus" class="status-box default">
       Enter your credentials to login
     </div>
+
+<!-- PREMIUM PLAN -->
+
+<div style="
+  margin-top:24px;
+  background:linear-gradient(135deg,#0B1220 0%,#111827 45%,#1E293B 100%);
+  border-radius:28px;
+  padding:24px;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+">
+
+  <!-- Glow -->
+
+  <div style="
+    position:absolute;
+    top:-50px;
+    right:-50px;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(251,191,36,.15);
+    filter:blur(12px);
+  "></div>
+
+  <!-- Badge -->
+
+  <div style="
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#FBBF24,#F59E0B);
+    color:#111827;
+    font-weight:900;
+    font-size:13px;
+    letter-spacing:.6px;
+    box-shadow:0 8px 20px rgba(245,158,11,.35);
+  ">
+    ⭐ PREMIUM MOCK TEST PLAN
+  </div>
+
+  <!-- Heading -->
+
+  <div style="
+    margin-top:18px;
+    font-size:30px;
+    font-weight:900;
+    line-height:1.25;
+  ">
+    Crack Exams With
+    <span style="
+      color:#FBBF24;
+      display:block;
+    ">
+      Smart Practice
+    </span>
+  </div>
+
+  <!-- Subtitle -->
+
+  <div style="
+    margin-top:12px;
+    font-size:14px;
+    line-height:1.8;
+    color:#CBD5E1;
+  ">
+    Complete preparation package for school
+    and competitive level practice.
+  </div>
+
+  <!-- Features -->
+
+  <div style="
+    margin-top:24px;
+    display:grid;
+    gap:12px;
+  ">
+
+    <div style="
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      padding:14px;
+      border-radius:18px;
+    ">
+      ✅ 15 Full Mock Tests
+    </div>
+
+    <div style="
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      padding:14px;
+      border-radius:18px;
+    ">
+      📅 Alternate Day Test Schedule
+    </div>
+
+    <div style="
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      padding:14px;
+      border-radius:18px;
+    ">
+      ⏳ 30 Days Validity
+    </div>
+
+    <div style="
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      padding:14px;
+      border-radius:18px;
+      line-height:1.8;
+    ">
+      📚 Physics, Chemistry, Biology,
+      History, Geography, Polity,
+      Economics & Computer Science
+    </div>
+
+  </div>
+
+  <!-- Price Section -->
+
+  <div style="
+    margin-top:26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  ">
+
+    <div>
+
+      <div style="
+        font-size:13px;
+        color:#CBD5E1;
+      ">
+        Premium Access Price
+      </div>
+
+      <div style="
+        margin-top:4px;
+        font-size:44px;
+        font-weight:900;
+        color:#FBBF24;
+        text-shadow:0 0 20px rgba(251,191,36,.25);
+      ">
+        ₹150
+      </div>
+
+    </div>
+
+    <div style="
+      background:linear-gradient(135deg,#22C55E,#16A34A);
+      padding:15px 22px;
+      border-radius:18px;
+      font-weight:900;
+      font-size:15px;
+      color:white;
+      box-shadow:0 10px 25px rgba(34,197,94,.35);
+      animation:pulseBtn 1.6s infinite;
+      cursor:pointer;
+    ">
+      🚀 Join Premium
+    </div>
+
+  </div>
+
+  <!-- Bottom Message -->
+
+  <div style="
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#FCA5A5;
+    font-size:13px;
+    font-weight:600;
+    line-height:1.7;
+  ">
+    🔥 Limited batch access. Start improving your score with structured mock practice.
+  </div>
+
+</div>
   </div>`;
 }
 
@@ -234,21 +418,11 @@ let totalVisibleTests = 0;
 
     </div>
 
-    <div style="
-      width:82px;
-      height:82px;
-      border-radius:24px;
-      background:rgba(255,255,255,.12);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:42px;
-      backdrop-filter:blur(14px);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow:0 8px 24px rgba(0,0,0,.18);
-    ">
-      🚀
-    </div>
+
+
+</div>
+
+</div>
 
   </div>
 
@@ -320,52 +494,44 @@ let totalVisibleTests = 0;
 
   </div>
 
-  <!-- premium strip -->
+
+<div style="
+  margin-top:22px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  border-radius:20px;
+  padding:18px;
+  color:white;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+">
 
   <div style="
-    margin-top:22px;
-    background:linear-gradient(135deg,#FFD700,#FFA000);
-    border-radius:20px;
-    padding:16px;
-    color:#111;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    position:relative;
-    z-index:2;
-    box-shadow:0 8px 24px rgba(255,193,7,.28);
+    font-size:13px;
+    opacity:.8;
+    font-weight:700;
   ">
+    ⏳ NEXT TEST UNLOCKS IN
+  </div>
 
-    <div>
+  <div id="dailyCountdown" style="
+    margin-top:10px;
+    font-size:32px;
+    font-weight:900;
+    color:#FBBF24;
+    letter-spacing:2px;
+  ">
+    00:00:00
+  </div>
 
-      <div style="
-        font-size:13px;
-        font-weight:700;
-      ">
-        ⭐ PREMIUM MOCK TEST PLAN
-      </div>
+  <div style="
+    margin-top:8px;
+    font-size:14px;
+    color:#CBD5E1;
+  ">
+    New test will be available automatically.
+  </div>
 
-      <div style="
-        margin-top:4px;
-        font-size:18px;
-        font-weight:900;
-      ">
-        15 Mock Tests • ₹150
-      </div>
+</div>
 
-    </div>
-
-    <div style="
-      background:#111;
-      color:white;
-      padding:10px 16px;
-      border-radius:14px;
-      font-size:13px;
-      font-weight:800;
-      white-space:nowrap;
-    ">
-      Join Now
     </div>
 
   </div>
@@ -473,7 +639,11 @@ if(
     }
 
     app.innerHTML = html;
-    setTimeout(()=>{
+
+// Countdown start
+startDailyCountdown();
+
+setTimeout(()=>{
 
   const totalBox =
     document.getElementById("totalTests");
@@ -490,40 +660,227 @@ if(
 function showInstructions(id, dur){
 
   pushState();
-
   hideNavButtons();
 
   currentTest = id;
 
- 
-
-  fetch(`${API}?action=questions&testId=${id}`)
-
-  .then(r=>r.json())
-
-  .then(data=>{
-
-   globalQuestions = Array.isArray(data.questions)
-    ? data.questions
-     : JSON.parse(data.questions || "[]");
-     app.innerHTML = `
-     <div class="container">
-
-      <h2>Instructions</h2>
-
-      <div class="card">
-        ${data.instructions}
+  app.innerHTML = `
+  <div class="container">
+    <div class="card" style="
+      text-align:center;
+      padding:30px;
+    ">
+      <div style="
+        font-size:40px;
+        margin-bottom:10px;
+      ">
+        ⏳
       </div>
 
-      <button class="btn"
-        onclick="startTest(${dur})">
+      <div style="
+        font-size:18px;
+        font-weight:700;
+      ">
+        Loading Instructions...
+      </div>
+    </div>
+  </div>
+  `;
 
-        Start Test
+  fetch(`${API}?action=questions&testId=${encodeURIComponent(id)}`)
 
-      </button>
+    .then(response => {
 
-    </div>`;
-  });
+      if(!response.ok){
+        throw new Error(
+          `HTTP ${response.status}`
+        );
+      }
+
+      return response.json();
+
+    })
+
+    .then(data => {
+
+      try{
+
+        globalQuestions = Array.isArray(data.questions)
+          ? data.questions
+          : JSON.parse(data.questions || "[]");
+
+      }catch(e){
+
+        globalQuestions = [];
+
+      }
+
+      if(!globalQuestions.length){
+
+        app.innerHTML = `
+        <div class="container">
+
+          <div class="card" style="
+            text-align:center;
+            padding:25px;
+          ">
+
+            <h2>⚠️ Test Not Available</h2>
+
+            <p>
+              Questions could not be loaded.
+            </p>
+
+            <button
+              class="btn"
+              onclick="loadTests()">
+
+              Back To Dashboard
+
+            </button>
+
+          </div>
+
+        </div>
+        `;
+
+        return;
+      }
+
+      app.innerHTML = `
+
+      <div class="container">
+
+        <div class="card" style="
+          border-radius:24px;
+          padding:24px;
+        ">
+
+          <h2 style="
+            margin-top:0;
+            color:#1b5e20;
+          ">
+            📋 Test Instructions
+          </h2>
+
+          <div class="modern-instructions">
+
+
+
+<div class="exam-guidelines">
+
+  <h3>📋 Important Instructions</h3>
+
+  <ul>
+    <li>Read every question carefully before answering.</li>
+
+    <li>You can change answers anytime before final submission.</li>
+
+    <li>Do not refresh or close the browser during the test.</li>
+
+    <li>Timer will continue running even if internet fluctuates.</li>
+
+    <li>Unattempted questions carry 0 marks.</li>
+
+    <li>Test will automatically submit when time expires.</li>
+
+    <li>Ensure stable internet connection before starting.</li>
+
+    <li>Your progress is automatically saved.</li>
+
+  </ul>
+
+</div>
+
+<div class="candidate-box">
+
+  <div>🆔 Test ID : <b>${id}</b></div>
+
+  <div>📅 Date : <b>${new Date().toLocaleDateString()}</b></div>
+
+</div>
+
+          <div style="
+background:#eef7ff;
+padding:16px;
+border-radius:14px;
+margin-bottom:18px;
+line-height:1.9;
+">
+
+<div>📚 Total Questions: <b>${globalQuestions.length}</b></div>
+
+<div>⏳ Duration: <b>${dur} Minutes</b></div>
+
+<div>✅ Correct Answer: <b>+2 Marks</b></div>
+
+<div>❌ Wrong Answer: <b>-0.5 Marks</b></div>
+
+<div>⚪ Unattempted: <b>0 Mark</b></div>
+
+<div>🎯 Attempt all questions carefully.</div>
+
+</div>
+
+          <button
+            class="btn"
+            onclick="startTest(${dur})">
+
+            🚀 Start Test
+
+          </button>
+
+        </div>
+
+      </div>
+      `;
+
+    })
+
+    .catch(error => {
+
+      console.error(error);
+
+      app.innerHTML = `
+
+      <div class="container">
+
+        <div class="card" style="
+          text-align:center;
+          padding:25px;
+        ">
+
+          <h2>🚫 Failed To Load Test</h2>
+
+          <p>
+            Unable to fetch instructions or questions.
+          </p>
+
+          <button
+            class="btn"
+            onclick="loadTests()">
+
+            Back To Dashboard
+
+          </button>
+
+        </div>
+
+      </div>
+      `;
+
+    });
+}
+ 
+ function escapeHtml(text) {
+  if (text == null) return "";
+
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function startTest(dur){
@@ -1223,180 +1580,7 @@ function showProfile(){
 
   </div>
 
-<!-- PREMIUM PLAN -->
 
-<div style="
-  margin-top:24px;
-  background:linear-gradient(135deg,#111,#1f1f1f);
-  border-radius:24px;
-  padding:22px;
-  color:white;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 12px 35px rgba(0,0,0,.28);
-">
-
-  <!-- glow -->
-
-  <div style="
-    position:absolute;
-    top:-40px;
-    right:-40px;
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    background:rgba(255,215,0,.12);
-  "></div>
-
-  <!-- badge -->
-
-  <div style="
-    display:inline-block;
-    padding:7px 16px;
-    border-radius:50px;
-    background:linear-gradient(135deg,#FFD700,#FFA000);
-    color:#111;
-    font-weight:900;
-    font-size:13px;
-    letter-spacing:.5px;
-    box-shadow:0 4px 14px rgba(255,215,0,.35);
-  ">
-    ⭐ PREMIUM MOCK TEST PLAN
-  </div>
-
-  <!-- headline -->
-
-  <div style="
-    margin-top:18px;
-    font-size:28px;
-    font-weight:900;
-    line-height:1.3;
-  ">
-    Crack Exams With
-    <span style="color:#FFD54F;">
-      Smart Practice
-    </span>
-  </div>
-
-  <!-- subtitle -->
-
-  <div style="
-    margin-top:10px;
-    font-size:14px;
-    line-height:1.8;
-    color:rgba(255,255,255,.82);
-  ">
-
-    Complete preparation package for
-    school + competitive level practice.
-
-  </div>
-
-  <!-- features -->
-
-  <div style="
-    margin-top:22px;
-    display:grid;
-    gap:12px;
-  ">
-
-    <div style="
-      background:rgba(255,255,255,.06);
-      padding:14px;
-      border-radius:16px;
-      backdrop-filter:blur(10px);
-    ">
-      ✅ 15 Full Mock Tests
-    </div>
-
-    <div style="
-      background:rgba(255,255,255,.06);
-      padding:14px;
-      border-radius:16px;
-    ">
-      📅 Alternate Day Test Schedule
-    </div>
-
-    <div style="
-      background:rgba(255,255,255,.06);
-      padding:14px;
-      border-radius:16px;
-    ">
-      ⏳ 30 Days Validity
-    </div>
-
-    <div style="
-      background:rgba(255,255,255,.06);
-      padding:14px;
-      border-radius:16px;
-      line-height:1.7;
-    ">
-      📚 Physics, Chemistry, Biology,
-      History, Geography, Polity,
-      Economics & Computer Science
-    </div>
-
-  </div>
-
-  <!-- price -->
-
-  <div style="
-    margin-top:24px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    flex-wrap:wrap;
-  ">
-
-    <div>
-
-      <div style="
-        font-size:13px;
-        opacity:.8;
-      ">
-        Premium Access Price
-      </div>
-
-      <div style="
-        font-size:42px;
-        font-weight:900;
-        color:#FFD54F;
-        line-height:1.1;
-      ">
-        ₹150
-      </div>
-
-    </div>
-
-    <div style="
-      background:linear-gradient(135deg,#00e676,#00c853);
-      padding:14px 20px;
-      border-radius:18px;
-      font-weight:900;
-      font-size:15px;
-      color:#fff;
-      box-shadow:0 6px 18px rgba(0,230,118,.35);
-      animation:pulseBtn 1.6s infinite;
-    ">
-      Join Premium
-    </div>
-
-  </div>
-
-  <!-- urgency -->
-
-  <div style="
-    margin-top:18px;
-    font-size:13px;
-    color:#FFCCBC;
-    line-height:1.7;
-  ">
-    🔥 Limited batch access. Start improving
-    your score with structured mock practice.
-  </div>
-
-</div>
 
 
   <!-- HISTORY -->
@@ -1799,37 +1983,47 @@ function toggleExp(id){
   }
 
 }
+function startDailyCountdown(){
 
-function escapeHtml(text) {
+  const timerEl =
+    document.getElementById("dailyCountdown");
 
-  if (text === null || text === undefined) {
-    return "";
+  if(!timerEl) return;
+
+  function update(){
+
+    const now = new Date();
+
+    let next = new Date();
+
+    // Today 11:00 AM
+    next.setHours(11,49,0,0);
+
+    // If 11 AM already passed,
+    // move target to tomorrow 11 AM
+    if(now >= next){
+      next.setDate(next.getDate() + 1);
+    }
+
+    const diff = next - now;
+
+    const h =
+      Math.floor(diff / (1000*60*60));
+
+    const m =
+      Math.floor((diff % (1000*60*60)) / (1000*60));
+
+    const s =
+      Math.floor((diff % (1000*60)) / 1000);
+
+    timerEl.innerHTML =
+      String(h).padStart(2,"0") +
+      ":" +
+      String(m).padStart(2,"0") +
+      ":" +
+      String(s).padStart(2,"0");
   }
 
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function goToQuestion(index){
-
-  const q =
-    document.getElementById(
-      `question-${index}`
-    );
-
-  if(q){
-
-    q.scrollIntoView({
-
-      behavior:"smooth",
-
-      block:"start"
-
-    });
-
-  }
+  update();
+  setInterval(update,1000);
 }
