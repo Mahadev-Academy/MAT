@@ -92,12 +92,21 @@ async function renderWordCard(){
 
     </div>
 
-   <div class="chips-title">
+  <div class="chips-title">
   🔄 Synonyms
 </div>
 
 <div class="chips-wrap">
- ...
+
+  ${(word.synonyms || "")
+    .split(",")
+    .map(x => `
+      <span class="chip synonym-chip">
+        ${x.trim()}
+      </span>
+    `)
+    .join("")}
+
 </div>
 
 <button
