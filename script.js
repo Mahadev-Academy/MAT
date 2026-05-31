@@ -585,6 +585,13 @@ if(
 ){
 
   totalVisibleTests++;
+  const releaseDate = new Date(t.releaseDate);
+
+const endTime = new Date(releaseDate);
+endTime.setHours(15,0,0,0);
+
+const showTestData =
+  new Date() < endTime;
 
   const isDone = attempted[t.testId];
 
@@ -597,7 +604,7 @@ if(
           </div>
         `;
 
-        if(isDone){
+        if(isDone && showTestData){
 
   html += `
 
@@ -1996,14 +2003,11 @@ function startDailyCountdown(){
 
     let next = new Date();
 
-    // Today 11:00 AM
-    next.setHours(13,30,0,0);
+next.setHours(11,0,0,0);
 
-    // If 11 AM already passed,
-    // move target to tomorrow 11 AM
-    if(now >= next){
-      next.setDate(next.getDate() + 1);
-    }
+if(now >= next){
+  next.setDate(next.getDate() + 1);
+}
 
     const diff = next - now;
 
@@ -2015,6 +2019,13 @@ function startDailyCountdown(){
 
     const s =
       Math.floor((diff % (1000*60)) / 1000);
+      if(diff <= 0){
+
+  loadTests();
+
+  return;
+
+}
 
     timerEl.innerHTML =
       String(h).padStart(2,"0") +
