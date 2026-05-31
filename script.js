@@ -6,11 +6,150 @@ let currentTest = "";
 let answers = {};
 let timer;
 let globalQuestions = [];
+let wordCache = null;
 
 window.addEventListener("DOMContentLoaded", () => {
   app = document.getElementById("app");
   showLogin();
 });
+async function getWordOfDay(){
+
+  if(wordCache){
+    return wordCache;
+  }
+
+  const res = await fetch(
+    `${API}?action=wordOfDay`
+  );
+
+  const data = await res.json();
+
+wordCache = data.word;
+return wordCache;
+}
+
+async function renderWordCard(){
+
+ try{
+
+  const word = await getWordOfDay();
+
+  if(!word) return;
+
+  document.getElementById("wordOfDayCard").innerHTML = `
+
+  <div class="premium-word-card">
+
+    <div class="word-top">
+
+      <div class="premium-word-header">
+
+  <div class="premium-word-badge">
+
+    <span class="badge-dot"></span>
+
+    <span class="badge-text">
+      WORD OF THE DAY
+    </span>
+
+  </div>
+
+</div>
+
+    </div>
+
+    <div class="word-main">
+
+      <h1>${word.word}</h1>
+
+      <div class="word-pronounce">
+        ✨ Improve Vocabulary Daily
+      </div>
+
+    </div>
+
+    <div class="meaning-card">
+
+      <div class="meaning-title">
+        🇮🇳 Hindi Meaning
+      </div>
+
+      <div class="meaning-hi-premium">
+        ${word.meaningHi}
+      </div>
+
+    </div>
+
+    <div class="meaning-card">
+
+      <div class="meaning-title">
+        🌍 English Meaning
+      </div>
+
+      <div class="meaning-en-premium">
+        ${word.meaningEn}
+      </div>
+
+    </div>
+
+   <div class="chips-title">
+  🔄 Synonyms
+</div>
+
+<div class="chips-wrap">
+ ...
+</div>
+
+<button
+ class="learn-more-btn"
+ onclick="toggleWordDetails()">
+
+ Learn More
+
+</button>
+
+<div id="wordExtra" style="display:none">
+
+  <div class="chips-title">
+    ⚡ Antonyms
+  </div>
+
+  <div class="chips-wrap">
+
+    ${(word.antonyms || "")
+      .split(",")
+      .map(x=>`<span class="chip antonym-chip">${x.trim()}</span>`)
+      .join("")}
+
+  </div>
+
+  <div class="example-box">
+
+    <div class="example-title">
+      📝 Example Sentence
+    </div>
+
+    <div class="example-text">
+      "${word.sentence || "-"}"
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+ }catch(err){
+
+  console.error(err);
+
+ }
+
+}
 
 function pushState(){
   history.pushState({page: "app"}, "", "");
@@ -33,6 +172,27 @@ function hideNavButtons(){
   if(nav) nav.innerHTML = "";
 }
 
+function toggleWordDetails(){
+
+  const box =
+    document.getElementById("wordExtra");
+
+  if(!box) return;
+
+  if(
+    window.getComputedStyle(box).display
+    === "none"
+  ){
+
+    box.style.display = "block";
+
+  }else{
+
+    box.style.display = "none";
+
+  }
+
+}
 function logout(){
 
   studentId = "";
@@ -424,18 +584,6 @@ let totalVisibleTests = 0;
 
 </div>
 
-  </div>
-
-  <!-- stats -->
-
-  <div style="
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-    margin-top:24px;
-    position:relative;
-    z-index:2;
-  ">
 
     <div style="
       background:rgba(255,255,255,.10);
@@ -445,54 +593,11 @@ let totalVisibleTests = 0;
       border:1px solid rgba(255,255,255,.08);
     ">
 
-      <div style="
-        font-size:13px;
-        opacity:.8;
-      ">
-        📚 Available Tests
-      </div>
-
-      <div id="totalTests" style="
-        margin-top:8px;
-        font-size:34px;
-        font-weight:900;
-      ">
-        0
-      </div>
+     <div id="wordOfDayCard"></div>
 
     </div>
 
-    <div style="
-      background:rgba(255,255,255,.10);
-      border-radius:22px;
-      padding:18px;
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,.08);
-    ">
-
-      <div style="
-        font-size:13px;
-        opacity:.8;
-      ">
-        ⚡ Learning Status
-      </div>
-
-      <div style="
-        margin-top:10px;
-        display:inline-block;
-        padding:8px 14px;
-        border-radius:50px;
-        background:#00e676;
-        color:#111;
-        font-weight:800;
-        font-size:14px;
-      ">
-        ACTIVE STUDENT
-      </div>
-
-    </div>
-
-  </div>
+ 
 
 
 <div style="
@@ -646,9 +751,8 @@ const showTestData =
     }
 
     app.innerHTML = html;
-
-// Countdown start
-startDailyCountdown();
+    renderWordCard();
+    startDailyCountdown();
 
 setTimeout(()=>{
 
