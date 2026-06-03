@@ -7,6 +7,8 @@ let answers = {};
 let timer;
 let globalQuestions = [];
 let wordCache = null;
+let dailyCountdownTimer = null;
+
 
 window.addEventListener("DOMContentLoaded", () => {
   app = document.getElementById("app");
@@ -497,11 +499,21 @@ function loadTests(){
   showNavButtons();
 
   Promise.all([
-    fetch(`${API}?action=tests`).then(r=>r.json()),
-    fetch(`${API}?action=attemptStatus&studentId=${studentId}`).then(r=>r.json())
-  ])
-  .then(([tests, attempted])=>{
 
+ fetch(`${API}?action=tests`)
+ .then(r=>r.json()),
+
+ fetch(
+ `${API}?action=attemptStatus&studentId=${studentId}`
+ ).then(r=>r.json()),
+
+ fetch(
+ `${API}?action=upcomingTest`
+ ).then(r=>r.json())
+
+])
+.then(([tests, attempted, upcoming])=>{
+ let totalVisibleTests = 0;
   let html = `
 
 <!-- PREMIUM HERO -->
@@ -606,7 +618,7 @@ function loadTests(){
  
 
 
-<div style="
+<div id="countdownWrapper" style="
   margin-top:22px;
   background:linear-gradient(135deg,#0f172a,#1e293b);
   border-radius:20px;
@@ -674,8 +686,83 @@ function loadTests(){
       font-size:14px;
     ">
       Continue your preparation journey
-    </div>
 
+      ${upcoming.testName ? `
+
+<div class="upcoming-card">
+
+  <div class="upcoming-badge">
+    🚀 NEXT UPCOMING TEST
+  </div>
+
+  <div class="upcoming-title">
+    ${upcoming.testName}
+  </div>
+
+<div class="upcoming-meta">
+
+  <div>
+    📅
+    ${new Date(
+      upcoming.release
+    ).toLocaleDateString(
+      "en-IN",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      }
+    )}
+  </div>
+
+  <div>
+    ⏰ 11:00 AM
+  </div>
+
+</div>
+
+<div style="
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+">
+
+  <div style="
+    background:rgba(255,255,255,.06);
+    padding:12px;
+    border-radius:14px;
+    text-align:center;
+  ">
+    📖 50 Questions
+  </div>
+
+  <div style="
+    background:rgba(255,255,255,.06);
+    padding:12px;
+    border-radius:14px;
+    text-align:center;
+  ">
+    ⏱ 30 Minutes
+  </div>
+
+</div>
+
+<div style="
+  margin-top:16px;
+  text-align:center;
+  color:#22c55e;
+  font-weight:800;
+  font-size:15px;
+">
+  🚀 Ready To Unlock
+</div>
+
+</div>
+
+` : ""}
+    </div>
+   
   </div>
 
 </div>
@@ -757,15 +844,24 @@ const showTestData =
     }
 
     app.innerHTML = html;
-    renderWordCard();
-    startDailyCountdown();
+
+renderWordCard();
+
+manageCountdownVisibility();
+
+if(
+  upcoming &&
+  upcoming.release
+){
+
+}
 
 setTimeout(()=>{
-
-
 },100);
   });
 }
+
+
 
 function showInstructions(id, dur){
 
@@ -1432,6 +1528,24 @@ const data = JSON.parse(text);
   submitting = false;
 }
 
+function formatDate(dateValue){
+
+  if(!dateValue) return "-";
+
+  const d = new Date(dateValue);
+
+  if(isNaN(d.getTime())) return "-";
+
+  return d.toLocaleDateString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }
+  );
+
+}
 
 function showProfile(){
   hideNavButtons();
@@ -2067,12 +2181,72 @@ function toggleExp(id){
   }
 
 }
+
+function manageCountdownVisibility(){
+
+  const now = new Date();
+
+  const nextRelease = new Date();
+
+  nextRelease.setHours(11,0,0,0);
+
+  if(now >= nextRelease){
+
+    nextRelease.setDate(
+      nextRelease.getDate() + 1
+    );
+
+  }
+
+  const showCountdownTime =
+    new Date(nextRelease);
+
+  showCountdownTime.setHours(
+    5,0,0,0
+  );
+
+  const countdownCard =
+    document.getElementById(
+      "countdownWrapper"
+    );
+
+  if(!countdownCard) return;
+
+  if(
+    now >= showCountdownTime &&
+    now < nextRelease
+  ){
+
+    countdownCard.style.display =
+      "block";
+
+    startDailyCountdown();
+
+  }else{
+
+    countdownCard.style.display =
+      "none";
+
+  }
+
+}
+
 function startDailyCountdown(){
 
   const timerEl =
-    document.getElementById("dailyCountdown");
+    document.getElementById(
+      "dailyCountdown"
+    );
 
   if(!timerEl) return;
+
+  if(dailyCountdownTimer){
+
+    clearInterval(
+      dailyCountdownTimer
+    );
+
+  }
 
   function update(){
 
@@ -2080,42 +2254,63 @@ function startDailyCountdown(){
 
     let next = new Date();
 
-next.setHours(11,0,0,0);
+    next.setHours(
+      11,0,0,0
+    );
 
-if(now >= next){
-  next.setDate(next.getDate() + 1);
-}
+    if(now >= next){
+
+      next.setDate(
+        next.getDate() + 1
+      );
+
+    }
 
     const diff = next - now;
 
+    if(diff <= 0){
+
+      loadTests();
+
+      return;
+
+    }
+
     const h =
-      Math.floor(diff / (1000*60*60));
+      Math.floor(
+        diff/(1000*60*60)
+      );
 
     const m =
-      Math.floor((diff % (1000*60*60)) / (1000*60));
+      Math.floor(
+        (diff%(1000*60*60))
+        /(1000*60)
+      );
 
     const s =
-      Math.floor((diff % (1000*60)) / 1000);
-      if(diff <= 0){
-
-  loadTests();
-
-  return;
-
-}
+      Math.floor(
+        (diff%(1000*60))
+        /1000
+      );
 
     timerEl.innerHTML =
-      String(h).padStart(2,"0") +
-      ":" +
-      String(m).padStart(2,"0") +
-      ":" +
+      String(h).padStart(2,"0")
+      + ":" +
+      String(m).padStart(2,"0")
+      + ":" +
       String(s).padStart(2,"0");
+
   }
 
   update();
-  setInterval(update,1000);
-}
 
+  dailyCountdownTimer =
+    setInterval(
+      update,
+      1000
+    );
+
+}
 
 
 function goToQuestion(index){
