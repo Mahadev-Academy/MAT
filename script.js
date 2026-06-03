@@ -49,7 +49,7 @@ async function renderWordCard(){
     <span class="badge-dot"></span>
 
     <span class="badge-text">
-      WORD OF THE DAY
+      MA WORD OF THE DAY
     </span>
 
   </div>
@@ -493,9 +493,6 @@ function setStatus(message, type){
 function loadTests(){
 
   pushState();
-let totalVisibleTests = 0;
-
-  
 
   showNavButtons();
 
@@ -765,13 +762,6 @@ const showTestData =
 
 setTimeout(()=>{
 
-  const totalBox =
-    document.getElementById("totalTests");
-
-  if(totalBox){
-    totalBox.innerText =
-      totalVisibleTests;
-  }
 
 },100);
   });
@@ -1442,32 +1432,6 @@ const data = JSON.parse(text);
   submitting = false;
 }
 
-function showResult(){
-  hideNavButtons();
-
-  fetch(`${API}?action=result&studentId=${studentId}&testId=${currentTest}`)
-  .then(r=>r.json())
-  .then(d=>{
-    app.innerHTML = `
-    <div class="container">
-      <h2>Result</h2>
-      <div class="card">
-        Score: <b>${d.score} / ${d.total}</b><br>
-        Submitted: ${d.submittedAt || ""}
-      </div>
-      <button class="btn" onclick="loadTests()">Back</button>
-    </div>`;
-  });
-}
-
-function formatDate(dateStr){
-  if(!dateStr) return "-";
-  const d = new Date(dateStr);
-  const day = String(d.getDate()).padStart(2,'0');
-  const month = String(d.getMonth()+1).padStart(2,'0');
-  const year = d.getFullYear();
-  return `${day}/${month}/${year}`;
-}
 
 function showProfile(){
   hideNavButtons();
