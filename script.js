@@ -513,6 +513,7 @@ function loadTests(){
 
 ])
 .then(([tests, attempted, upcoming])=>{
+  const rendered = new Set();
  let totalVisibleTests = 0;
   let html = `
 
@@ -966,7 +967,7 @@ function showInstructions(id, dur){
             margin-top:0;
             color:#1b5e20;
           ">
-            📋 Test Instructions
+            📋 Important Instructions
           </h2>
 
           <div class="modern-instructions">
@@ -974,8 +975,6 @@ function showInstructions(id, dur){
 
 
 <div class="exam-guidelines">
-
-  <h3>📋 Important Instructions</h3>
 
   <ul>
     <li>Read every question carefully before answering.</li>
