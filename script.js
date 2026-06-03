@@ -1940,43 +1940,43 @@ function openAnalysis(testId){
 
         </div>
 
-        <div class="premium-stats">
+<div class="premium-stats">
 
-          <div class="stat-box">
+  <div class="stat-box">
+    <div class="stat-label">Questions</div>
+    <div class="stat-value">${data.questions.length}</div>
+  </div>
 
-            <div class="stat-label">
-              Questions
-            </div>
+  <div class="stat-box">
+    <div class="stat-label">Score</div>
+    <div class="stat-value">${data.score}</div>
+  </div>
 
-            <div class="stat-value">
-              ${data.questions.length}
-            </div>
+  <div class="stat-box">
+    <div class="stat-label">Rank</div>
+    <div class="stat-value">#${data.rank}</div>
+  </div>
 
-          </div>
+</div>
 
-          <div class="stat-box">
+<div class="premium-stats answer-stats">
 
-            <div class="stat-label">
-              Score
-            </div>
+  <div class="stat-box">
+    <div class="stat-label">Correct</div>
+    <div class="stat-value">${data.correctCount}</div>
+  </div>
 
-            <div class="stat-value">
-              ${data.score}
-            </div>
+  <div class="stat-box">
+    <div class="stat-label">Unattempted</div>
+    <div class="stat-value">${data.unattemptedCount}</div>
+  </div>
 
-          </div>
+  <div class="stat-box">
+    <div class="stat-label">Wrong</div>
+    <div class="stat-value">${data.wrongCount}</div>
+  </div>
 
-          <div class="stat-box">
-
-            <div class="stat-label">
-              Result
-            </div>
-
-            <div class="stat-value">
-
-              ${accuracy >= 60
-                ? '🔥'
-                : '📘'}
+</div>
 
             </div>
 
