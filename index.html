@@ -123,7 +123,8 @@
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:22px;
+  margin-bottom:0;
+  padding-bottom:8px;
 }
 
 .test-mini-title{
@@ -254,27 +255,40 @@
 }
 
 .premium-submit-btn{
+
   position:fixed;
-  bottom:20px;
+
+  bottom:8px;
+
   left:50%;
+
   transform:translateX(-50%);
-  width:calc(100% - 36px);
-  max-width:420px;
+
+  width:130px;
+
+  height:42px;
+
   border:none;
-  border-radius:22px;
-  background:
-  linear-gradient(
+
+  border-radius:999px;
+
+  background:linear-gradient(
     135deg,
     #00c853,
     #009624
   );
+
   color:#fff;
-  padding:18px;
-  font-size:18px;
-  font-weight:900;
+
+  font-size:15px;
+
+  font-weight:800;
+
+  z-index:9999;
+
   box-shadow:
-  0 12px 30px rgba(0,200,83,.35);
-  z-index:999;
+    0 6px 16px rgba(0,200,83,.25);
+
 }
 
   .test-actions{
@@ -1373,17 +1387,39 @@ button, .option{
 .warning-timer{
   background:rgba(255,0,0,0.2);
 }
-.question-nav{
+.sticky-nav-panel{
+
   position:sticky;
-  top:74px;
-  z-index:100;
-  display:flex;
-  gap:10px;
-  overflow:auto;
-  padding:10px 0 16px;
-  margin-bottom:10px;
-  background:var(--bg);
+
+  top:46px; /* header ki height ke hisab se adjust */
+
+  z-index:300;
+
+  background:#fff;
+
+  margin-top:-8px;
+
+  padding:6px 0 10px;
+
+  border-radius:0 0 18px 18px;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.06);
+
 }
+
+.question-nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:4px 0;
+  margin-bottom:6px;
+}
+
+.question-nav::-webkit-scrollbar{
+  display:none;
+}
+
 
 .nav-dot{
   min-width:42px;
@@ -1402,6 +1438,80 @@ button, .option{
   background:#00c853;
   color:#fff;
 }
+.nav-active{
+  outline:3px solid #304ffe;
+}
+
+.nav-review{
+  background:#ff9800;
+  color:#fff;
+}
+
+.nav-review-answer{
+  background:#7b1fa2;
+  color:#fff;
+}
+
+.visited{
+  box-shadow:
+  inset 0 0 0 2px #e0e0e0;
+}
+
+.question-actions{
+
+  position:sticky;
+
+  top:138px; /* question-nav ke niche */
+
+  z-index:99;
+
+  display:flex;
+
+  gap:10px;
+
+  padding:10px 0;
+
+  margin-bottom:18px;
+
+  background:var(--bg);
+
+}
+
+.clear-btn,
+.review-btn{
+
+  flex:1;
+
+  height:48px;
+
+  border:none;
+
+  border-radius:16px;
+
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+.clear-btn{
+
+  background:#fff;
+
+  color:#e53935;
+
+  border:2px solid #e53935;
+
+}
+
+.review-btn{
+
+  background:#fff8e1;
+
+  color:#ff9800;
+
+  border:2px solid #ff9800;
+
+}
 .learn-more-btn{
 
   width:100%;
@@ -1415,7 +1525,7 @@ button, .option{
   padding:14px;
 
   cursor:pointer;
-
+}
   background:
   linear-gradient(
     135deg,
@@ -1428,7 +1538,7 @@ button, .option{
   font-size:15px;
 
   font-weight:900;
-
+}
   box-shadow:
   0 10px 25px
   rgba(245,158,11,.35);
@@ -1526,12 +1636,13 @@ button, .option{
 </div>
 
 <div id="app" class="wrapper"></div>
+
+
 <script src="script.js"></script>
-
-
 
 </body>
 </html>
+
 
 
 
