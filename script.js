@@ -8,6 +8,9 @@ let timer;
 let globalQuestions = [];
 let wordCache = null;
 let dailyCountdownTimer = null;
+let reviewQuestions = new Set();
+let visitedQuestions = new Set();
+let currentQuestionIndex = 0;
 
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -1149,20 +1152,46 @@ function startTest(dur){
     </div>
 
     <!-- PROGRESS -->
-<div class="question-nav">
+<!-- QUESTION PALETTE + ACTIONS -->
 
-  ${globalQuestions.map((_,i)=>`
+<div class="sticky-nav-panel">
 
-    <div
-  id="nav-${i}"
-  class="nav-dot"
-  onclick="goToQuestion(${i})">
+  <div class="question-nav">
 
-  ${i+1}
+    ${globalQuestions.map((_,i)=>`
 
-</div>
+      <div
+        id="nav-${i}"
+        class="nav-dot"
+        onclick="goToQuestion(${i})">
 
-  `).join('')}
+        ${i+1}
+
+      </div>
+
+    `).join('')}
+
+  </div>
+
+  <div class="question-actions">
+
+    <button
+      class="clear-btn"
+      onclick="clearResponse()">
+
+      🗑️ Clear
+
+    </button>
+
+    <button
+      class="review-btn"
+      onclick="toggleReview()">
+
+      ⭐ Review
+
+    </button>
+
+  </div>
 
 </div>
     <div class="progress-wrap">
@@ -1185,8 +1214,8 @@ function startTest(dur){
 
    <div
    id="question-${i}"
+   data-index="${i}"
    class="premium-question-card fade-in">
-
       <div class="q-top">
 
         <div class="q-number">
@@ -1254,20 +1283,30 @@ function startTest(dur){
 
   html += `
 
-    <button
-      class="premium-submit-btn"
-      onclick="submitTest()">
+   <button
+   class="premium-submit-btn"
+   onclick="submitTest()">
 
-      🚀 Submit Test
+   Submit
 
-    </button>
+   </button>
 
   </div>
 
   `;
 
   app.innerHTML = html;
+visitedQuestions.add(0);
 
+currentQuestionIndex = 0;
+
+document
+.getElementById("nav-0")
+?.classList.add(
+  "nav-active"
+);
+
+updatePalette();
   startFloatingTimer(dur);
 }
 
@@ -1294,22 +1333,14 @@ function select(qid, opt, el){
   );
 
 
-const nav =
-  document.getElementById(
-    `nav-${
-      globalQuestions.findIndex(
-        q=>q.qid===qid
-      )
-    }`
+const index =
+  globalQuestions.findIndex(
+    q => q.qid === qid
   );
 
-if(nav){
+visitedQuestions.add(index);
 
-  nav.classList.add(
-    "nav-completed"
-  );
-
-}
+updatePalette();
 
   // Progress Update
 
@@ -1330,6 +1361,131 @@ if(nav){
     progress + "%";
 
 }
+
+function clearResponse(){
+
+  const index =
+    currentQuestionIndex;
+
+  const qid =
+    globalQuestions[index].qid;
+
+  delete answers[qid];
+
+  const card =
+    document.getElementById(
+      `question-${index}`
+    );
+
+  if(card){
+
+    card
+      .querySelectorAll(
+        ".premium-option"
+      )
+      .forEach(x =>
+        x.classList.remove(
+          "premium-selected"
+        )
+      );
+
+  }
+
+  updatePalette();
+
+}
+
+function toggleReview(){
+
+  const index =
+    currentQuestionIndex;
+
+  if(
+    reviewQuestions.has(index)
+  ){
+
+    reviewQuestions.delete(index);
+
+  }else{
+
+    reviewQuestions.add(index);
+
+  }
+
+  updatePalette();
+
+}
+
+function updatePalette(){
+
+  globalQuestions.forEach(
+    (q,index)=>{
+
+      const dot =
+        document.getElementById(
+          `nav-${index}`
+        );
+
+      if(!dot) return;
+
+dot.className =
+  "nav-dot";
+
+if(index === currentQuestionIndex){
+
+  dot.classList.add(
+    "nav-active"
+  );
+
+}
+      const answered =
+        answers[q.qid];
+
+      const review =
+        reviewQuestions.has(
+          index
+        );
+
+      if(answered && review){
+
+        dot.classList.add(
+          "nav-review-answer"
+        );
+
+      }
+
+      else if(review){
+
+        dot.classList.add(
+          "nav-review"
+        );
+
+      }
+
+      else if(answered){
+
+        dot.classList.add(
+          "nav-completed"
+        );
+
+      }
+
+      if(
+        visitedQuestions.has(
+          index
+        )
+      ){
+
+        dot.classList.add(
+          "visited"
+        );
+
+      }
+
+    });
+
+}
+
 
 
 
@@ -2187,7 +2343,7 @@ function manageCountdownVisibility(){
 
   const nextRelease = new Date();
 
-  nextRelease.setHours(11,0,0,0);
+  nextRelease.setHours(7,38,0,0);
 
   if(now >= nextRelease){
 
@@ -2313,6 +2469,7 @@ function startDailyCountdown(){
 
 
 function goToQuestion(index){
+   currentQuestionIndex = index;
 
   const question =
     document.getElementById(
@@ -2332,8 +2489,8 @@ function goToQuestion(index){
     ?.classList.add("nav-active");
 
   question.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+    behavior:"smooth",
+    block:"start"
   });
 
 }
@@ -2351,11 +2508,18 @@ window.addEventListener("scroll", () => {
     const rect =
       el.getBoundingClientRect();
 
-    if(rect.top < 250 &&
-       rect.bottom > 250){
+    if(
+      rect.top < 250 &&
+      rect.bottom > 250
+    ){
+
+      currentQuestionIndex =
+        index;
 
       document
-        .querySelectorAll(".nav-dot")
+        .querySelectorAll(
+          ".nav-dot"
+        )
         .forEach(dot =>
           dot.classList.remove(
             "nav-active"
