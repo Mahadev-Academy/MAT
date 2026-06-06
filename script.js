@@ -13,10 +13,45 @@ let visitedQuestions = new Set();
 let currentQuestionIndex = 0;
 
 
-window.addEventListener("DOMContentLoaded", () => {
-  app = document.getElementById("app");
-  showLogin();
-});
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    app =
+      document.getElementById("app");
+
+    const saved =
+      localStorage.getItem(
+        "studentData"
+      );
+
+    if(saved){
+
+      const user =
+        JSON.parse(saved);
+
+      studentId =
+        user.studentId;
+
+      window.studentName =
+        user.name;
+
+      window.studentClass =
+        user.class;
+
+      window.studentMobile =
+        user.mobile;
+
+      loadTests();
+
+    }else{
+
+      showLogin();
+
+    }
+
+  }
+);
 async function getWordOfDay(){
 
   if(wordCache){
@@ -174,9 +209,34 @@ window.onpopstate = () => loadTests();
 function showNavButtons(){
   const nav = document.getElementById("navBtns");
 nav.innerHTML = `
-  <button class="back-btn" id="profileBtn">👤</button>
-  <button class="logout-btn" id="logoutBtn">Logout</button>
+  <button class="back-btn"
+    id="refreshBtn">
+
+    🔄
+
+  </button>
+
+  <button class="back-btn"
+    id="profileBtn">
+
+    👤
+
+  </button>
+
+  <button class="logout-btn"
+    id="logoutBtn">
+
+    Logout
+
+  </button>
 `;
+document.getElementById(
+  "refreshBtn"
+).onclick = () => {
+
+  loadTests();
+
+};
   document.getElementById("profileBtn").onclick = showProfile;
   document.getElementById("logoutBtn").onclick = logout;
 }
@@ -209,6 +269,10 @@ function toggleWordDetails(){
 }
 function logout(){
 
+  localStorage.removeItem(
+    "studentData"
+  );
+
   studentId = "";
 
   currentTest = "";
@@ -217,9 +281,8 @@ function logout(){
 
   clearInterval(timer);
 
-  
-
   showLogin();
+
 }
 
 function showLogin(){
@@ -458,6 +521,15 @@ window.studentName = data.name;
 window.studentClass = data.class;
 
 window.studentMobile = data.mobile;
+localStorage.setItem(
+  "studentData",
+  JSON.stringify({
+    studentId:data.studentId,
+    name:data.name,
+    class:data.class,
+    mobile:data.mobile
+  })
+);
 
   setStatus("✅ Login successful", "success");
 
@@ -501,106 +573,67 @@ function loadTests(){
 
   showNavButtons();
 
-  Promise.all([
+fetch(
+ `${API}?action=dashboard&studentId=${studentId}`
+)
+.then(r=>r.json())
+.then(data=>{
 
- fetch(`${API}?action=tests`)
- .then(r=>r.json()),
+ const tests =
+   data.tests;
 
- fetch(
- `${API}?action=attemptStatus&studentId=${studentId}`
- ).then(r=>r.json()),
+ const attempted =
+   data.attempted;
 
- fetch(
- `${API}?action=upcomingTest`
- ).then(r=>r.json())
-
-])
-.then(([tests, attempted, upcoming])=>{
+ const upcoming =
+   data.upcoming;
   const rendered = new Set();
  let totalVisibleTests = 0;
   let html = `
 
-<!-- PREMIUM HERO -->
+<!-- PREMIUM HERO V2 -->
 
-<div style="
-  position:relative;
-  overflow:hidden;
-  background:
-  linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  border-radius:30px;
-  padding:26px 22px;
-  color:white;
-  margin-bottom:22px;
-  box-shadow:0 18px 45px rgba(0,0,0,.18);
-">
+<div class="hero-v2">
 
-  <!-- glow circles -->
+  <div class="hero-bg-glow"></div>
 
-  <div style="
-    position:absolute;
-    top:-60px;
-    right:-60px;
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    background:rgba(255,255,255,.08);
-  "></div>
-
-  <div style="
-    position:absolute;
-    bottom:-50px;
-    left:-50px;
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    background:rgba(0,255,200,.08);
-  "></div>
-
-  <!-- top -->
-
-  <div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:relative;
-    z-index:2;
-  ">
+  <div class="hero-top">
 
     <div>
 
-      <div style="
-        font-size:14px;
-        opacity:.85;
-        letter-spacing:.5px;
-      ">
+      <div class="hero-greeting">
         👋 Welcome Back
       </div>
 
-      <div style="
-        margin-top:6px;
-        font-size:30px;
-        font-weight:900;
-        line-height:1.2;
-      ">
+      <div class="hero-name">
         ${window.studentName}
       </div>
 
-      <div style="
-        margin-top:10px;
-        display:inline-block;
-        padding:7px 16px;
-        border-radius:50px;
-        background:rgba(255,255,255,.12);
-        backdrop-filter:blur(10px);
-        font-size:13px;
-        font-weight:700;
-      ">
+      <div class="hero-class">
         🎓 Class ${window.studentClass}
       </div>
 
     </div>
 
+    <div class="hero-avatar">
+      ${window.studentName.charAt(0)}
+    </div>
 
+  </div>
+
+  <div class="hero-divider"></div>
+
+  <div class="hero-message">
+
+ <div class="hero-divider"></div>
+
+<div class="hero-mini">
+
+  🚀 Ready for today's practice
+
+</div>
+
+  </div>
 
 </div>
 
@@ -691,76 +724,86 @@ function loadTests(){
     ">
       Continue your preparation journey
 
-      ${upcoming.testName ? `
+${upcoming.testName ? `
 
-<div class="upcoming-card">
+<div class="premium-upcoming-card">
 
-  <div class="upcoming-badge">
-    🚀 NEXT UPCOMING TEST
+  <div class="premium-upcoming-top">
+
+    <div>
+      <div class="premium-label">
+        🚀 NEXT EXAM
+      </div>
+
+      <div class="premium-test-title">
+        ${upcoming.testName}
+      </div>
+    </div>
+
+    <div class="premium-live-badge">
+      LIVE SOON
+    </div>
+
   </div>
 
-  <div class="upcoming-title">
-    ${upcoming.testName}
+  <div class="premium-divider"></div>
+
+  <div class="premium-info-grid">
+
+    <div class="info-box">
+      <div class="info-icon">📅</div>
+      <div>
+        <div class="info-label">Date</div>
+        <div class="info-value">
+          ${new Date(
+            upcoming.release
+          ).toLocaleDateString(
+            "en-IN",
+            {
+              day:"2-digit",
+              month:"short",
+              year:"numeric"
+            }
+          )}
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-icon">⏰</div>
+      <div>
+        <div class="info-label">Time</div>
+        <div class="info-value">
+          02:00 PM
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-icon">📖</div>
+      <div>
+        <div class="info-label">Questions</div>
+        <div class="info-value">
+          50 MCQs
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-icon">⏳</div>
+      <div>
+        <div class="info-label">Duration</div>
+        <div class="info-value">
+          30 Min
+        </div>
+      </div>
+    </div>
+
   </div>
 
-<div class="upcoming-meta">
-
-  <div>
-    📅
-    ${new Date(
-      upcoming.release
-    ).toLocaleDateString(
-      "en-IN",
-      {
-        day:"2-digit",
-        month:"short",
-        year:"numeric"
-      }
-    )}
+  <div class="unlock-banner">
+    🔓 Ready To Unlock
   </div>
-
-  <div>
-    ⏰ 11:00 AM
-  </div>
-
-</div>
-
-<div style="
-  margin-top:18px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-">
-
-  <div style="
-    background:rgba(255,255,255,.06);
-    padding:12px;
-    border-radius:14px;
-    text-align:center;
-  ">
-    📖 50 Questions
-  </div>
-
-  <div style="
-    background:rgba(255,255,255,.06);
-    padding:12px;
-    border-radius:14px;
-    text-align:center;
-  ">
-    ⏱ 30 Minutes
-  </div>
-
-</div>
-
-<div style="
-  margin-top:16px;
-  text-align:center;
-  color:#22c55e;
-  font-weight:800;
-  font-size:15px;
-">
-  🚀 Ready To Unlock
-</div>
 
 </div>
 
@@ -849,7 +892,11 @@ const showTestData =
 
     app.innerHTML = html;
 
-renderWordCard();
+requestIdleCallback(() => {
+
+  renderWordCard();
+
+});
 
 manageCountdownVisibility();
 
@@ -861,7 +908,7 @@ if(
 }
 
 setTimeout(()=>{
-},100);
+},500);
   });
 }
 
@@ -968,7 +1015,7 @@ function showInstructions(id, dur){
 
           <h2 style="
             margin-top:0;
-            color:#1b5e20;
+            color:#143848;
           ">
             📋 Important Instructions
           </h2>
@@ -1709,7 +1756,8 @@ function showProfile(){
   .then(r=>r.json())
   .then(d=>{
 
-    const percent = d.total ? Math.round((d.score/d.total)*100) : 0;
+   const percent =
+   Number(d.accuracy) || 0;
 
     app.innerHTML = `
 
@@ -1718,25 +1766,36 @@ function showProfile(){
   <!-- HERO CARD -->
 
   <div style="
-    background:linear-gradient(135deg,#1b5e20,#43a047);
-    border-radius:28px;
-    padding:28px 22px;
+    background:linear-gradient(
+      135deg,
+      #143848 0%,
+      #1d4f63 50%,
+      #25576d 100%
+    );
+
+    border-radius:24px;
+    padding:24px;
     color:white;
-    box-shadow:0 14px 40px rgba(0,0,0,0.18);
+
+    box-shadow:
+      0 15px 40px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.08);
+
     position:relative;
     overflow:hidden;
     margin-bottom:18px;
-  ">
+">
 
     <div style="
       position:absolute;
-      top:-40px;
-      right:-40px;
-      width:140px;
-      height:140px;
-      background:rgba(255,255,255,0.08);
+      top:-60px;
+      right:-60px;
+      width:180px;
+      height:180px;
+      background:rgba(255,255,255,.06);
       border-radius:50%;
-    "></div>
+">
+    </div>
 
     <div style="
       display:flex;
@@ -1747,10 +1806,18 @@ function showProfile(){
     ">
 
       <div style="
-        width:78px;
-        height:78px;
-        border-radius:50%;
-        background:rgba(255,255,255,0.18);
+        width:72px;
+        height:72px;
+        border-radius:20px;
+
+      background:linear-gradient(
+      135deg,
+       #4d9cff,
+       #6ab2ff
+        );
+
+        box-shadow:
+        0 10px 25px rgba(77,156,255,.35);
         display:flex;
         align-items:center;
         justify-content:center;
@@ -1794,9 +1861,16 @@ function showProfile(){
     ">
 
       <div style="
-        background:rgba(255,255,255,0.12);
-        border-radius:18px;
-        padding:16px;
+        background:rgba(255,255,255,.08);
+
+border:1px solid rgba(
+255,255,255,.06);
+
+backdrop-filter:blur(12px);
+
+border-radius:18px;
+
+padding:16px;
         backdrop-filter:blur(12px);
       ">
 
@@ -1815,9 +1889,16 @@ function showProfile(){
       </div>
 
       <div style="
-        background:rgba(255,255,255,0.12);
-        border-radius:18px;
-        padding:16px;
+        background:rgba(255,255,255,.08);
+
+border:1px solid rgba(
+255,255,255,.06);
+
+backdrop-filter:blur(12px);
+
+border-radius:18px;
+
+padding:16px;
         backdrop-filter:blur(12px);
       ">
 
@@ -1841,7 +1922,10 @@ function showProfile(){
 
     <div style="
       margin-top:24px;
-      background:rgba(255,255,255,0.14);
+      background:rgba(255,255,255,.08);
+
+border:1px solid rgba(
+255,255,255,.06);
       border-radius:22px;
       padding:20px;
       text-align:center;
@@ -1870,8 +1954,12 @@ function showProfile(){
         display:inline-block;
         padding:8px 18px;
         border-radius:50px;
-        background:white;
-        color:#1b5e20;
+        background:linear-gradient(
+       90deg,
+       #7fd8ff,
+       #ffffff
+       );
+        color:#143848;
         font-weight:800;
         font-size:14px;
       ">
@@ -2343,7 +2431,7 @@ function manageCountdownVisibility(){
 
   const nextRelease = new Date();
 
-  nextRelease.setHours(7,38,0,0);
+  nextRelease.setHours(14,00,0,0);
 
   if(now >= nextRelease){
 
@@ -2410,7 +2498,7 @@ function startDailyCountdown(){
     let next = new Date();
 
     next.setHours(
-      11,0,0,0
+      14,0,0,0
     );
 
     if(now >= next){
