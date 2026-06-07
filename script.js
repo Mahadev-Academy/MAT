@@ -774,7 +774,7 @@ ${upcoming.testName ? `
       <div>
         <div class="info-label">Time</div>
         <div class="info-value">
-          02:00 PM
+          11:00 AM
         </div>
       </div>
     </div>
@@ -2431,7 +2431,7 @@ function manageCountdownVisibility(){
 
   const nextRelease = new Date();
 
-  nextRelease.setHours(14,00,0,0);
+  nextRelease.setHours(11,00,0,0);
 
   if(now >= nextRelease){
 
@@ -2498,7 +2498,7 @@ function startDailyCountdown(){
     let next = new Date();
 
     next.setHours(
-      14,0,0,0
+      11,0,0,0
     );
 
     if(now >= next){
