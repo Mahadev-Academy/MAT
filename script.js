@@ -833,7 +833,7 @@ if(
   const releaseDate = new Date(t.releaseDate);
 
 const endTime = new Date(releaseDate);
-endTime.setHours(15,0,0,0);
+endTime.setHours(21,0,0,0);
 
 const showTestData =
   new Date() < endTime;
@@ -2121,10 +2121,17 @@ function openAnalysis(testId){
   .then(data=>{
 
     const accuracy =
-      Math.max(
-        0,
-        Math.round((data.score/data.total)*100)
-      );
+    data.correctCount + data.wrongCount
+    ? Math.round(
+   (
+    data.correctCount /
+    (
+      data.correctCount +
+      data.wrongCount
+     )
+     ) * 100
+     )
+     : 0;
 
     let html = `
 
