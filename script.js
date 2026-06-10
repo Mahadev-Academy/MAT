@@ -1,5 +1,6 @@
 let app;
-const API = "https://script.google.com/macros/s/AKfycbz8g8EOToM5_mPjadVaxaWKph9ZvJ8T6jBAKaLhLmPLVlPTrs6U_ikKoekJ_LTKZdGDOQ/exec";
+const API =
+"https://script.google.com/macros/s/AKfycbz_BQJyTBSYM4Xkedp5cDI6JRsGdBFEDbx5IZswYdBswtN7WX-X_oksWRRHR8BWKsM01Q/exec";
 
 let studentId = "";
 let currentTest = "";
@@ -565,7 +566,42 @@ function setStatus(message, type){
   box.className = "status-box " + type;
   box.innerText = message;
 }
+function getStudentAvatar(name){
 
+  const avatars = [
+    "🧑‍🎓",
+    "👨‍💻",
+    "👩‍💻",
+    "🧑‍🚀",
+    "👨‍🔬",
+    "👩‍🔬",
+    "🧑‍🏫",
+    "👨‍🎨",
+    "👩‍🎨",
+    "🦁",
+    "🦅",
+    "🐯",
+    "🐼",
+    "🐨",
+    "🐻",
+    "🦊",
+    "🐺",
+    "🐲",
+    "⚡",
+    "🔥"
+  ];
+
+  let sum = 0;
+
+  for(let i=0;i<name.length;i++){
+    sum += name.charCodeAt(i);
+  }
+
+  return avatars[
+    sum % avatars.length
+  ];
+
+}
 
 function loadTests(){
 
@@ -585,8 +621,9 @@ fetch(
  const attempted =
    data.attempted;
 
- const upcoming =
-   data.upcoming;
+const upcomingTests =
+   data.upcoming || [];
+
   const rendered = new Set();
  let totalVisibleTests = 0;
   let html = `
@@ -605,9 +642,13 @@ fetch(
         👋 Welcome Back
       </div>
 
-      <div class="hero-name">
-        ${window.studentName}
-      </div>
+      <div class="hero-name-wrap">
+
+  <div class="hero-name">
+    ${window.studentName}
+  </div>
+
+</div>
 
       <div class="hero-class">
         🎓 Class ${window.studentClass}
@@ -615,9 +656,9 @@ fetch(
 
     </div>
 
-    <div class="hero-avatar">
-      ${window.studentName.charAt(0)}
-    </div>
+<div class="hero-avatar">
+  ${getStudentAvatar(window.studentName)}
+</div>
 
   </div>
 
@@ -632,8 +673,6 @@ fetch(
   🚀 Ready for today's practice
 
 </div>
-
-  </div>
 
 </div>
 
@@ -722,29 +761,95 @@ fetch(
       color:#666;
       font-size:14px;
     ">
-      Continue your preparation journey
+Continue your preparation journey
+</div>
+</div>   <!-- heading container close -->
+</div>   <!-- flex container close -->
 
-${upcoming.testName ? `
+${upcomingTests.map(upcoming => {
+
+  const now = new Date();
+
+  const release =
+    new Date(upcoming.release);
+
+  const endTime =
+    new Date(release);
+
+  endTime.setHours(
+    21,0,0,0
+  );
+
+  const submitted =
+    attempted &&
+    attempted[upcoming.testId];
+
+  let buttonHtml = "";
+
+  if(submitted){
+
+    buttonHtml = `
+      <div class="unlock-banner">
+        ✅ Test Submitted
+      </div>
+    `;
+
+  }else if(
+    now >= release &&
+    now < endTime
+  ){
+
+    buttonHtml = `
+      <div
+        class="unlock-banner"
+        style="cursor:pointer"
+        onclick="showInstructions('${upcoming.testId}',30)"
+      >
+        🚀 Start Test
+      </div>
+    `;
+
+  }else{
+
+    buttonHtml = `
+      <div class="unlock-banner">
+        🔒 Ready To Unlock
+      </div>
+    `;
+
+  }
+
+  return `
 
 <div class="premium-upcoming-card">
 
-  <div class="premium-upcoming-top">
+<div class="premium-upcoming-top">
 
-    <div>
-      <div class="premium-label">
-        🚀 NEXT EXAM
-      </div>
+  <div>
 
-      <div class="premium-test-title">
-        ${upcoming.testName}
-      </div>
+    <div class="premium-label">
+      ${
+        upcoming.isLive
+          ? "🔥 LIVE TEST"
+          : "🚀 UPCOMING TEST"
+      }
     </div>
 
-    <div class="premium-live-badge">
-      LIVE SOON
+    <div class="premium-test-title">
+      ${upcoming.testName || ""}
     </div>
 
   </div>
+
+  <div class="premium-live-badge">
+    ${
+      upcoming.isLive
+        ? "🟢 LIVE NOW"
+        : "⏳ LIVE SOON"
+    }
+  </div>
+
+</div>
 
   <div class="premium-divider"></div>
 
@@ -801,95 +906,15 @@ ${upcoming.testName ? `
 
   </div>
 
-  <div class="unlock-banner">
-    🔓 Ready To Unlock
-  </div>
+  ${buttonHtml}
 
-</div>
-
-` : ""}
-    </div>
-   
-  </div>
-
-</div>
+</div> <!-- premium-upcoming-card -->
 
 `;
 
-  
-    for(let i=0;i<tests.length;i++){
+}).join("")}
 
-  const t = tests[i];
-
-if(
-  t.status === "Active" &&
-  (
-    String(t.class) === String(window.studentClass) ||
-    String(t.class).toUpperCase() === "ALL"
-  )
-){
-
-  totalVisibleTests++;
-  const releaseDate = new Date(t.releaseDate);
-
-const endTime = new Date(releaseDate);
-endTime.setHours(21,0,0,0);
-
-const showTestData =
-  new Date() < endTime;
-
-  const isDone = attempted[t.testId];
-
-        html += `
-        <div class="test-card">
-          <div class="test-name">${t.testName}</div>
-          <div class="meta">
-            <span>🎓 Class ${t.class}</span>
-            <span>⏱ ${t.duration} min</span>
-          </div>
-        `;
-
-        if(isDone && showTestData){
-
-  html += `
-
-  <div class="test-actions">
-
-    <button class="completed-btn">
-      ✅ Completed
-    </button>
-
-    <button class="analysis-btn"
-      onclick="openAnalysis('${t.testId}')">
-
-      📊 Analysis
-
-    </button>
-
-  </div>
-
-  `;
-
-}else{
-
-  html += `
-
-  <button class="start-btn"
-
-    onclick="showInstructions('${t.testId}',${t.duration})">
-
-    🚀 Start Test
-
-  </button>
-
-  `;
-
-}
-
-        html += `</div>`;
-      }
-    }
-
+`;
     app.innerHTML = html;
 
 requestIdleCallback(() => {
@@ -899,13 +924,6 @@ requestIdleCallback(() => {
 });
 
 manageCountdownVisibility();
-
-if(
-  upcoming &&
-  upcoming.release
-){
-
-}
 
 setTimeout(()=>{
 },500);
