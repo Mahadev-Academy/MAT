@@ -1487,7 +1487,177 @@ button, .option{
   margin-bottom:10px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06);
 }
+.history-premium-card{
 
+  position:relative;
+
+  background:linear-gradient(
+    135deg,
+    #ffffff,
+    #f8fbff
+  );
+
+  border-radius:24px;
+
+  padding:18px;
+
+  margin-bottom:16px;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.08);
+
+}
+
+.history-badge{
+
+  position:absolute;
+
+  top:14px;
+
+  right:14px;
+
+  background:linear-gradient(
+    135deg,
+    #ff9800,
+    #ff5722
+  );
+
+  color:white;
+
+  font-weight:900;
+
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+
+}
+.history-badge{
+
+  min-width:110px;
+
+  text-align:center;
+
+  color:#fff;
+
+}
+
+.history-top{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+}
+
+.history-icon{
+
+  width:58px;
+
+  height:58px;
+
+  border-radius:18px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:28px;
+
+  background:linear-gradient(
+    135deg,
+    #667eea,
+    #764ba2
+  );
+
+}
+
+.history-title{
+
+  font-size:18px;
+
+  font-weight:800;
+
+  color:#111;
+
+}
+
+.history-id{
+
+  margin-top:4px;
+
+  color:#777;
+
+  font-size:13px;
+
+}
+
+.history-divider{
+
+  height:1px;
+
+  background:#e5e7eb;
+
+  margin:14px 0;
+
+}
+
+.history-stats{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:14px;
+
+}
+
+.history-score{
+
+  background:#fff7d6;
+
+  color:#a16207;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  font-weight:800;
+
+}
+
+.history-analysis-btn{
+
+  width:100%;
+
+  height:50px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:linear-gradient(
+    135deg,
+    #00c853,
+    #009624
+  );
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+}
 .fade-in{
   animation:fade .4s ease;
 }
@@ -1973,6 +2143,40 @@ button, .option{
     0 10px 25px rgba(59,130,246,.35);
 
 }
+.legend{
+  background:linear-gradient(
+  135deg,#FFD700,#FF8C00);
+}
+
+.champion{
+  background:linear-gradient(
+  135deg,#7C3AED,#4F46E5);
+}
+
+.excellent{
+  background:linear-gradient(
+  135deg,#00C853,#009624);
+}
+
+.good{
+  background:linear-gradient(
+  135deg,#2196F3,#1565C0);
+}
+
+.average{
+  background:linear-gradient(
+  135deg,#FFB300,#F57C00);
+}
+
+.improve{
+  background:linear-gradient(
+  135deg,#FF7043,#E64A19);
+}
+
+.fail{
+  background:linear-gradient(
+  135deg,#E53935,#B71C1C);
+}
 </style>
 </head>
 
@@ -1994,7 +2198,12 @@ button, .option{
 
 <div id="app" class="wrapper"></div>
 
+
+
+
+
 <script src="script.js"></script>
+
 
 
 
