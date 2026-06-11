@@ -609,20 +609,31 @@ function loadTests(){
 
   showNavButtons();
 
-fetch(
- `${API}?action=dashboard&studentId=${studentId}`
-)
-.then(r=>r.json())
-.then(data=>{
+fetch(`${API}?action=dashboard&studentId=${studentId}`)
 
- const tests =
-   data.tests;
+.then(response => response.text())
 
- const attempted =
-   data.attempted;
+.then(txt => {
 
-const upcomingTests =
-   data.upcoming || [];
+  console.log("RAW RESPONSE =", txt);
+
+  const data = JSON.parse(txt);
+
+  console.log("DATA =", data);
+
+  console.log("TESTS =", data.tests);
+
+  console.log("ATTEMPTED =", data.attempted);
+
+  console.log("UPCOMING =", data.upcoming);
+
+  const tests = data.tests;
+
+  const attempted = data.attempted;
+
+  const upcomingTests = data.upcoming || [];
+
+  // बाकी code
 
   const rendered = new Set();
  let totalVisibleTests = 0;
@@ -786,13 +797,38 @@ ${upcomingTests.map(upcoming => {
 
   let buttonHtml = "";
 
-  if(submitted){
+if(submitted){
 
-    buttonHtml = `
-      <div class="unlock-banner">
-        ✅ Test Submitted
+  buttonHtml = `
+    <div style="
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+    ">
+
+      <div
+        class="unlock-banner"
+        style="
+          flex:1;
+          margin:0;
+        ">
+        ✅ Completed
       </div>
-    `;
+
+      <button
+        class="analysis-btn"
+        style="
+          flex:1;
+          width:auto;
+        "
+        onclick="openAnalysis('${upcoming.testId}')">
+
+        📊 Analysis
+
+      </button>
+
+    </div>
+  `;
 
   }else if(
     now >= release &&
@@ -2013,32 +2049,37 @@ border:1px solid rgba(
 
   </div>
 
-  <!-- LATEST TEST -->
+<!-- LATEST TEST -->
 
-  <div class="glass">
+<div class="glass">
 
-    <div style="
-      font-size:18px;
-      font-weight:800;
-      margin-bottom:14px;
-    ">
-      📄 Latest Test
+  <div style="
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:14px;
+  ">
+    📄 Latest Test
+  </div>
+
+  <div style="line-height:2;">
+
+    <div>
+      <b>Test ID:</b> ${d.testId || "-"}
     </div>
 
-    <div style="line-height:2;">
-
-      <div>
-        <b>Test ID:</b> ${d.testId || "-"}
-      </div>
-
-      <div>
-        <b>Date:</b> ${formatDate(d.submittedAt)}
-      </div>
-
+    <div>
+      <b>Date:</b> ${formatDate(d.submittedAt)}
     </div>
 
   </div>
 
+  <button
+    class="analysis-btn"
+    onclick="openAnalysis('${d.testId}')">
+    📊 Analysis
+  </button>
+
+</div>
 
 
 
@@ -2072,22 +2113,119 @@ function loadHistory(){
   .then(list=>{
 
     let html = "";
+for(let i=0;i<Math.min(showCount,list.length);i++){
 
-    for(let i=0;i<Math.min(showCount,list.length);i++){
-      const t = list[i];
+  const t = list[i];
 
-      html += `
-      <div class="glass fade-in">
-        <b>${t.testId}</b>
-        <div style="float:right;font-weight:600;">
-          ${t.score}/${t.total}
-        </div>
-        <br>
-        <small style="color:#777;">
-          ${formatDate(t.submittedAt)}
-        </small>
-      </div>`;
-    }
+  const percent =
+    Math.round(
+      (Number(t.score) / Number(t.total)) * 100
+    );
+let badgeText = "";
+let badgeClass = "";
+
+if(percent >= 95){
+
+  badgeText = "👑 Legend";
+  badgeClass = "legend";
+
+}
+else if(percent >= 90){
+
+  badgeText = "🏆 Champion";
+  badgeClass = "champion";
+
+}
+else if(percent >= 80){
+
+  badgeText = "⭐⭐ Excellent";
+  badgeClass = "excellent";
+
+}
+else if(percent >= 60){
+
+  badgeText = "⭐ Good";
+  badgeClass = "good";
+
+}
+else if(percent >= 46){
+
+  badgeText = "👍 Average";
+  badgeClass = "average";
+
+}
+else if(percent >= 35){
+
+  badgeText = "⚠️ Need Improvement";
+  badgeClass = "improve";
+
+}
+ else{
+
+  badgeText = "";
+  badgeClass = "";
+
+}
+  html += `
+
+<div class="history-premium-card">
+
+${badgeText ? `
+
+${badgeText ? `
+<div class="history-badge ${badgeClass}">
+  ${badgeText}
+</div>
+` : ''}
+
+` : ''}
+
+  <div class="history-top">
+
+    <div class="history-icon">
+      🧠
+    </div>
+
+    <div>
+
+      <div class="history-title">
+        ${t.testName || "General Knowledge"}
+      </div>
+
+      <div class="history-id">
+        Test ID : ${t.testId}
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="history-divider"></div>
+
+  <div class="history-stats">
+
+    <div class="history-date">
+      📅 ${formatDate(t.submittedAt)}
+    </div>
+
+    <div class="history-score">
+      🏆 ${t.score}/${t.total}
+    </div>
+
+  </div>
+
+  <button
+    class="history-analysis-btn"
+    onclick="openAnalysis('${t.testId}')">
+
+    📊 Detailed Analysis
+
+  </button>
+
+</div>
+
+`;
+}
 
     if(list.length > showCount){
       html += `<button class="btn" onclick="showMore()">Show More</button>`;
