@@ -2268,16 +2268,41 @@ function openAnalysis(testId){
 
   `;
 
-  fetch(
-    `${API}?action=analysis&studentId=${studentId}&testId=${testId}`
-  )
+fetch(
+  `${API}?action=analysis&studentId=${studentId}&testId=${testId}`
+)
 
-  .then(r=>r.json())
+.then(r => r.json())
 
-  .then(data=>{
+.then(data=>{
 
-    const accuracy =
-    data.correctCount + data.wrongCount
+  console.log("ANALYSIS DATA =", data);
+
+  if(data.error){
+
+    app.innerHTML = `
+      <div class="analysis-error">
+        <div class="glass-error">
+          <div class="error-title">
+            ${data.error}
+          </div>
+
+          <button class="btn"
+            onclick="loadTests()">
+            Back To Dashboard
+          </button>
+
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  // बाकी analysis code
+
+  const accuracy =
+  data.correctCount + data.wrongCount
     ? Math.round(
    (
     data.correctCount /
@@ -2288,7 +2313,25 @@ function openAnalysis(testId){
      ) * 100
      )
      : 0;
+let badgeText = "";
+let badgeClass = "";
 
+if(data.score >= 95){
+  badgeText = "👑 Legend";
+  badgeClass = "legend";
+}
+else if(data.score >= 75){
+  badgeText = "⭐ Good";
+  badgeClass = "good";
+}
+else if(data.score >= 50){
+  badgeText = "👍 Average";
+  badgeClass = "average";
+}
+else{
+  badgeText = "⚠️ Need Improvement";
+  badgeClass = "improve";
+}
     let html = `
 
     <div class="analysis-page fade-in">
@@ -2324,7 +2367,32 @@ function openAnalysis(testId){
       <div class="premium-score-card">
 
         <div class="score-glow"></div>
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+">
 
+  <div style="
+    font-size:24px;
+    font-weight:800;
+    color:white;
+  ">
+    ${data.testName}
+  </div>
+
+  <div class="${badgeClass}" style="
+    padding:8px 16px;
+    border-radius:999px;
+    font-weight:700;
+    background:rgba(255,255,255,.15);
+    color:white;
+  ">
+    ${badgeText}
+  </div>
+
+</div>
         <div class="score-ring">
 
           <div class="score-ring-inner">
@@ -2535,7 +2603,12 @@ function openAnalysis(testId){
 
   })
 
-  .catch(()=>{
+  .catch(err=>{
+
+    console.error(
+      "ANALYSIS FAILED =",
+      err
+    );
 
     app.innerHTML = `
 
@@ -2790,3 +2863,4 @@ window.addEventListener("scroll", () => {
   });
 
 });
+
