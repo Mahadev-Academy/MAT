@@ -12,7 +12,7 @@ let dailyCountdownTimer = null;
 let reviewQuestions = new Set();
 let visitedQuestions = new Set();
 let currentQuestionIndex = 0;
-
+let previousPage = null;
 
 window.addEventListener(
   "DOMContentLoaded",
@@ -848,9 +848,13 @@ if(submitted){
   }else{
 
     buttonHtml = `
-      <div class="unlock-banner">
-        🔒 Ready To Unlock
-      </div>
+<div
+  id="upcomingCountdown"
+  class="unlock-banner">
+
+  ⏳ Loading...
+
+</div>
     `;
 
   }
@@ -951,7 +955,15 @@ if(submitted){
 }).join("")}
 
 `;
-    app.innerHTML = html;
+app.innerHTML = html;
+
+if(upcomingTests.length){
+
+  startCountdown(
+    upcomingTests[0].release
+  );
+
+}
 
 requestIdleCallback(() => {
 
@@ -1817,271 +1829,95 @@ function showProfile(){
 
 <div class="container fade-in">
 
-  <!-- HERO CARD -->
+ <!-- PREMIUM PROFILE -->
 
-  <div style="
-    background:linear-gradient(
-      135deg,
-      #143848 0%,
-      #1d4f63 50%,
-      #25576d 100%
-    );
+<div class="profile-premium">
 
-    border-radius:24px;
-    padding:24px;
-    color:white;
+<div class="profile-header">
 
-    box-shadow:
-      0 15px 40px rgba(0,0,0,.20),
-      inset 0 1px 0 rgba(255,255,255,.08);
+<div class="profile-avatar">
+👨‍🎓
+</div>
 
-    position:relative;
-    overflow:hidden;
-    margin-bottom:18px;
-">
+<div class="profile-user">
 
-    <div style="
-      position:absolute;
-      top:-60px;
-      right:-60px;
-      width:180px;
-      height:180px;
-      background:rgba(255,255,255,.06);
-      border-radius:50%;
-">
-    </div>
+<h2>${window.studentName}</h2>
 
-    <div style="
-      display:flex;
-      align-items:center;
-      gap:16px;
-      position:relative;
-      z-index:2;
-    ">
-
-      <div style="
-        width:72px;
-        height:72px;
-        border-radius:20px;
-
-      background:linear-gradient(
-      135deg,
-       #4d9cff,
-       #6ab2ff
-        );
-
-        box-shadow:
-        0 10px 25px rgba(77,156,255,.35);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:38px;
-        backdrop-filter:blur(10px);
-      ">
-        👨‍🎓
-      </div>
-
-      <div>
-
-        <div style="
-          font-size:26px;
-          font-weight:800;
-          line-height:1.2;
-        ">
-          ${window.studentName}
-        </div>
-
-        <div style="
-          margin-top:6px;
-          opacity:.9;
-          font-size:14px;
-        ">
-          Student ID: ${studentId}
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- STATS -->
-
-    <div style="
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:24px;
-      position:relative;
-      z-index:2;
-    ">
-
-      <div style="
-        background:rgba(255,255,255,.08);
-
-border:1px solid rgba(
-255,255,255,.06);
-
-backdrop-filter:blur(12px);
-
-border-radius:18px;
-
-padding:16px;
-        backdrop-filter:blur(12px);
-      ">
-
-        <div style="font-size:13px;opacity:.85;">
-          📱 Mobile
-        </div>
-
-        <div style="
-          margin-top:6px;
-          font-size:18px;
-          font-weight:700;
-        ">
-          ${window.studentMobile}
-        </div>
-
-      </div>
-
-      <div style="
-        background:rgba(255,255,255,.08);
-
-border:1px solid rgba(
-255,255,255,.06);
-
-backdrop-filter:blur(12px);
-
-border-radius:18px;
-
-padding:16px;
-        backdrop-filter:blur(12px);
-      ">
-
-        <div style="font-size:13px;opacity:.85;">
-          🎓 Class
-        </div>
-
-        <div style="
-          margin-top:6px;
-          font-size:22px;
-          font-weight:800;
-        ">
-          ${window.studentClass}
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- SCORE -->
-
-    <div style="
-      margin-top:24px;
-      background:rgba(255,255,255,.08);
-
-border:1px solid rgba(
-255,255,255,.06);
-      border-radius:22px;
-      padding:20px;
-      text-align:center;
-      backdrop-filter:blur(14px);
-      position:relative;
-      z-index:2;
-    ">
-
-      <div style="
-        font-size:15px;
-        opacity:.9;
-      ">
-        Latest Performance
-      </div>
-
-      <div style="
-        font-size:42px;
-        font-weight:900;
-        margin-top:8px;
-      ">
-        ${d.score || 0}/${d.total || 0}
-      </div>
-
-      <div style="
-        margin-top:10px;
-        display:inline-block;
-        padding:8px 18px;
-        border-radius:50px;
-        background:linear-gradient(
-       90deg,
-       #7fd8ff,
-       #ffffff
-       );
-        color:#143848;
-        font-weight:800;
-        font-size:14px;
-      ">
-        🏆 Rank #${d.rank || "-"}
-      </div>
-
-      <div style="
-        height:10px;
-        background:rgba(255,255,255,0.22);
-        border-radius:20px;
-        overflow:hidden;
-        margin-top:18px;
-      ">
-
-        <div style="
-          width:${percent}%;
-          height:100%;
-          background:white;
-          border-radius:20px;
-        "></div>
-
-      </div>
-
-      <div style="
-        margin-top:10px;
-        font-size:14px;
-        opacity:.92;
-      ">
-        ${percent}% Accuracy
-      </div>
-
-    </div>
-
-  </div>
-
-<!-- LATEST TEST -->
-
-<div class="glass">
-
-  <div style="
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:14px;
-  ">
-    📄 Latest Test
-  </div>
-
-  <div style="line-height:2;">
-
-    <div>
-      <b>Test ID:</b> ${d.testId || "-"}
-    </div>
-
-    <div>
-      <b>Date:</b> ${formatDate(d.submittedAt)}
-    </div>
-
-  </div>
-
-  <button
-    class="analysis-btn"
-    onclick="openAnalysis('${d.testId}')">
-    📊 Analysis
-  </button>
+<p>Student ID: ${studentId}</p>
 
 </div>
 
+<div class="academy-badge">
+MAHADEV ACADEMY TEST
+</div>
 
+</div>
+
+<div class="profile-info-grid">
+
+<div class="profile-info-box">
+<div class="label">📱 Mobile</div>
+<div class="value">${window.studentMobile}</div>
+</div>
+
+<div class="profile-info-box">
+<div class="label">🎓 Class</div>
+<div class="value">${window.studentClass}</div>
+</div>
+
+</div>
+
+<div class="performance-premium">
+
+<div class="performance-left">
+
+<div class="performance-title">
+Latest Performance
+</div>
+
+<div class="performance-score">
+${d.score || 0}<span>/${d.total || 0}</span>
+</div>
+
+<div class="rank-badge-ui">
+🏆 Rank #${d.rank || "-"}
+</div>
+
+</div>
+
+<div class="accuracy-ring">
+
+<svg viewBox="0 0 160 160">
+
+<circle
+cx="80"
+cy="80"
+r="60"
+class="ring-bg"
+/>
+
+<circle
+cx="80"
+cy="80"
+r="60"
+class="ring-progress"
+style="
+stroke-dashoffset:${377-(377*percent/100)};
+"
+/>
+
+</svg>
+
+<div class="ring-text">
+<div>${percent}%</div>
+<span>Accuracy</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
 
   <!-- HISTORY -->
 
@@ -2214,13 +2050,13 @@ ${badgeText ? `
 
   </div>
 
-  <button
-    class="history-analysis-btn"
-    onclick="openAnalysis('${t.testId}')">
+<button
+  class="history-analysis-btn"
+  onclick="openAnalysis('${t.testId}', showProfile)">
 
-    📊 Detailed Analysis
+  📊 Detailed Analysis
 
-  </button>
+</button>
 
 </div>
 
@@ -2248,7 +2084,14 @@ function showLess(){
   loadHistory();
 }
 
-function openAnalysis(testId){
+function openAnalysis(testId, backFn){
+
+  previousPage = backFn;
+
+  hideNavButtons();
+
+  // बाकी पूरा code जैसा है वैसा ही रहेगा
+
 
   hideNavButtons();
 
@@ -2288,7 +2131,7 @@ fetch(
           </div>
 
           <button class="btn"
-            onclick="loadTests()">
+            onclick="goBack()">
             Back To Dashboard
           </button>
 
@@ -2340,13 +2183,13 @@ else{
 
       <div class="analysis-navbar">
 
-        <button
-          class="premium-back-btn"
-          onclick="loadTests()">
+<button
+  class="premium-back-btn"
+  onclick="goBack()">
 
-          ← Back
+  ← Back
 
-        </button>
+</button>
 
         <div class="analysis-heading">
 
@@ -2660,6 +2503,22 @@ function toggleExp(id){
   }
 
 }
+function goBack(){
+
+  const btn = document.querySelector(".premium-back-btn");
+
+  if(btn){
+    btn.innerHTML = "⏳";
+    btn.disabled = true;
+  }
+
+  if(previousPage){
+    previousPage();
+  }else{
+    loadTests();
+  }
+
+}
 
 function manageCountdownVisibility(){
 
@@ -2864,3 +2723,74 @@ window.addEventListener("scroll", () => {
 
 });
 
+function startCountdown(releaseDate){
+
+  const countdownEl =
+    document.getElementById(
+      "upcomingCountdown"
+    );
+
+  if(!countdownEl) return;
+
+  function update(){
+
+    const now =
+      new Date();
+
+    const release =
+      new Date(releaseDate);
+
+    release.setHours(
+      11,0,0,0
+    );
+
+    const diff =
+      release - now;
+
+    if(diff <= 0){
+
+      countdownEl.innerHTML =
+        "🚀 Start Test";
+
+      return;
+    }
+
+    const hours =
+      Math.floor(
+        diff / (1000*60*60)
+      );
+
+    const minutes =
+      Math.floor(
+        (diff % (1000*60*60))
+        / (1000*60)
+      );
+
+    const seconds =
+      Math.floor(
+        (diff % (1000*60))
+        / 1000
+      );
+
+    countdownEl.innerHTML =
+      `⏳ Unlocks In ${
+        String(hours)
+          .padStart(2,"0")
+      }:${
+        String(minutes)
+          .padStart(2,"0")
+      }:${
+        String(seconds)
+          .padStart(2,"0")
+      }`;
+
+  }
+
+  update();
+
+  setInterval(
+    update,
+    1000
+  );
+
+}
