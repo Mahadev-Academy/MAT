@@ -12,133 +12,6 @@
   padding-bottom:120px;
 }
 
-.floating-timer{
-
-  position:fixed;
-
-  top:0px;
-
-  left:50%;
-
-  transform:translateX(130px);
-
-  z-index:9999;
-
-  animation:floatTimer .4s ease;
-
-}
-
-.timer-ring{
-
-  width:78px;
-
-  height:78px;
-
-  border-radius:24px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c853,
-      #009624
-    );
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  flex-direction:column;
-
-  color:#fff;
-
-  font-size:22px;
-
-  font-weight:900;
-
-  box-shadow:
-    0 12px 28px rgba(0,200,83,.32);
-
-  backdrop-filter:blur(10px);
-
-}
-
-@keyframes floatTimer{
-
-  from{
-    opacity:0;
-    transform:
-      translateY(-20px)
-      scale(.9);
-  }
-
-  to{
-    opacity:1;
-    transform:
-      translateY(0)
-      scale(1);
-  }
-
-}
-
-.timer-warning{
-  animation:shake .5s infinite;
-}
-
-.timer-warning .timer-ring{
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff9800,
-      #f57c00
-    );
-
-  box-shadow:
-    0 12px 28px rgba(255,152,0,.45);
-
-}
-@keyframes pulseOrange{
-
-  0%{
-    transform:scale(1);
-  }
-
-  50%{
-    transform:scale(1.05);
-  }
-
-  100%{
-    transform:scale(1);
-  }
-
-}
-
-@keyframes shake{
-  0%{transform:translateX(0);}
-  25%{transform:translateX(-2px);}
-  50%{transform:translateX(2px);}
-  75%{transform:translateX(-2px);}
-  100%{transform:translateX(0);}
-}
-
-@media(max-width:768px){
-
-  .floating-timer{
-
-    left:auto;
-
-    right:10px;
-
-    transform:none;
-
-    top:74px;
-
-  }
-
-}
-
 .timer-dot-live{
   width:10px;
   height:10px;
@@ -146,6 +19,116 @@
   background:#ff5252;
   margin-bottom:6px;
   animation:pulse 1s infinite;
+}
+.ultra-timer{
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  height:40px;
+
+  padding:0 14px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.12);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,.18);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.18);
+
+  overflow:hidden;
+}
+
+.live-ping{
+
+  width:9px;
+  height:9px;
+
+  border-radius:50%;
+
+  background:#ff3b30;
+
+  box-shadow:
+    0 0 8px #ff3b30,
+    0 0 18px #ff3b30;
+
+  animation:livePulse .9s infinite;
+}
+
+.live-text{
+
+  color:#00e676;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:1px;
+}
+
+.ultra-timer #floatingTimerText{
+  color:#00ff88;
+  font-size:17px;
+  font-weight:900;
+}
+.ultra-timer{
+  background:#0f172a;
+  border:1px solid rgba(0,255,136,.35);
+
+  box-shadow:
+    0 0 15px rgba(0,255,136,.15),
+    0 6px 18px rgba(0,0,0,.25);
+}
+
+@keyframes livePulse{
+
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.6);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+
+}
+.test-topbar{
+
+  position:sticky;
+
+  top:56px;      /* header height ke niche */
+
+  z-index:500;
+
+  background:#fff;
+
+  padding:8px 0;
+
+  margin-bottom:10px;
+}
+
+.test-topbar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.test-topbar > div:first-child{
+  flex:1;
+  min-width:0;
+}
+.test-main-title{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .test-topbar{
@@ -163,14 +146,14 @@
 }
 
 .test-main-title{
-  font-size:30px;
+  font-size:22px;
   font-weight:900;
 }
 
 .attempt-box{
   background:#fff;
-  padding:12px 18px;
-  border-radius:18px;
+  padding:8px 10px;
+  border-radius:10px;
   font-weight:800;
   box-shadow:
   0 6px 18px rgba(0,0,0,.08);
@@ -1485,7 +1468,7 @@ button, .option{
 
   position:absolute;
 
-  top:14px;
+  top:61px;
 
   right:14px;
 
@@ -1752,20 +1735,31 @@ button, .option{
 
   position:sticky;
 
-  top:46px; /* header ki height ke hisab se adjust */
+  top:52px;   /* header ke niche */
 
-  z-index:300;
+  z-index:999;
 
   background:#fff;
 
-  margin-top:-8px;
-
-  padding:6px 0 10px;
+  padding:8px 0 10px;
 
   border-radius:0 0 18px 18px;
 
   box-shadow:
-    0 8px 20px rgba(0,0,0,.06);
+    0 8px 20px rgba(0,0,0,.08);
+
+}
+.test-topbar{
+
+  position:sticky;
+
+  top:52px;
+
+  z-index:1000;
+
+  background:#fff;
+
+  padding:8px 0;
 
 }
 
@@ -1816,6 +1810,17 @@ button, .option{
 .visited{
   box-shadow:
   inset 0 0 0 2px #e0e0e0;
+}
+.question-actions{
+  position:sticky;
+
+  top:128px;
+
+  z-index:998;
+
+  background:#fff;
+
+  padding:10px 0;
 }
 
 .question-actions{
@@ -2155,6 +2160,143 @@ opacity:.9;
   background:linear-gradient(
   135deg,#E53935,#B71C1C);
 }
+
+.premium-live-badge{
+
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  width:170px;
+  height:54px;
+
+  border-radius:999px;
+
+  background:linear-gradient(
+    135deg,
+    rgba(255,0,60,.18),
+    rgba(255,60,60,.10)
+  );
+
+  border:1px solid rgba(255,80,80,.35);
+
+  backdrop-filter:blur(18px);
+
+  color:#fff;
+
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:1.2px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 0 25px rgba(255,0,60,.30),
+    inset 0 0 20px rgba(255,255,255,.05);
+}
+
+.premium-live-badge::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:-2px;
+
+  border-radius:999px;
+
+  background:conic-gradient(
+    from 0deg,
+    transparent,
+    rgba(255,80,80,.8),
+    transparent
+  );
+
+  animation:rotateLive 3s linear infinite;
+
+  z-index:0;
+}
+
+.premium-live-badge::after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:2px;
+
+  border-radius:999px;
+
+  background:linear-gradient(
+    135deg,
+    #161f34,
+    #23314f
+  );
+
+  z-index:1;
+}
+
+.live-content{
+  position:relative;
+  z-index:2;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.live-dot{
+
+  width:12px;
+  height:12px;
+
+  border-radius:50%;
+
+  background:#ff3b3b;
+
+  box-shadow:
+    0 0 10px #ff3b3b,
+    0 0 25px #ff3b3b,
+    0 0 45px #ff3b3b;
+
+  animation:livePulse 1s infinite;
+}
+
+.live-text{
+  text-transform:uppercase;
+}
+
+@keyframes livePulse{
+
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(2);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+
+}
+
+@keyframes rotateLive{
+
+  from{
+    transform:rotate(0deg);
+  }
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
 .profile-premium{
 background:#0f3550;
 border-radius:30px;
@@ -2440,10 +2582,11 @@ font-size:22px;
 
 <div id="app" class="wrapper"></div>
 
-
-
-
 <script src="script.js"></script>
+
+
+
+
 
 
 
