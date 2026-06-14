@@ -1735,7 +1735,7 @@ button, .option{
 
   position:sticky;
 
-  top:52px;   /* header ke niche */
+  top:56px;
 
   z-index:999;
 
@@ -1750,25 +1750,15 @@ button, .option{
 
 }
 .test-topbar{
-
-  position:sticky;
-
-  top:52px;
-
-  z-index:1000;
-
-  background:#fff;
-
-  padding:8px 0;
-
+  position:relative;
 }
 
 .question-nav{
-  display:flex;
-  gap:8px;
   overflow-x:auto;
-  padding:4px 0;
-  margin-bottom:6px;
+  overflow-y:hidden;
+  white-space:nowrap;
+  scrollbar-width:none;
+  scroll-behavior:smooth;
 }
 
 .question-nav::-webkit-scrollbar{
@@ -2582,10 +2572,10 @@ font-size:22px;
 
 <div id="app" class="wrapper"></div>
 
+
+
+
 <script src="script.js"></script>
-
-
-
 
 
 
