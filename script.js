@@ -815,9 +815,21 @@ for(let i=0;i<tests.length;i++){
 
   </div>
 
-  <div class="premium-live-badge">
-    🟢 LIVE NOW
+ <div class="premium-live-badge">
+
+  <div class="live-content">
+
+    <span class="signal">)))</span>
+
+    <span class="live-dot"></span>
+
+    <span class="live-text">LIVE</span>
+
+    <span class="signal">(((</span>
+
   </div>
+
+</div>
 
 </div>
 
@@ -1374,41 +1386,39 @@ function startTest(dur){
 
   <div class="premium-test-page">
 
-    <!-- FLOATING TIMER -->
-
-    <div class="floating-timer">
-
-      <div class="timer-ring">
-
-        <span class="timer-dot-live"></span>
-
-        <span id="floatingTimerText">
-  ${dur}:00
-</span>
-
-      </div>
-
-    </div>
-
     <!-- TOP BAR -->
 
-    <div class="test-topbar">
+<div class="test-topbar">
 
-      <div>
+  <div>
 
-        <div class="test-mini-title">
-          🚀 Live Test
-        </div>
+    <div class="test-mini-title">
+      🚀 Live Test
+    </div>
 
-        <div class="test-main-title">
-          ${currentTest}
-        </div>
+    <div class="test-main-title">
+      ${currentTest}
+    </div>
 
-      </div>
+  </div>
 
-      <div class="attempt-box">
+  <div class="ultra-timer">
 
-        Attempted
+    <span class="live-ping"></span>
+
+    <span class="live-text">
+      LIVE
+    </span>
+
+    <span id="floatingTimerText">
+      ${dur}:00
+    </span>
+
+  </div>
+
+  <div class="attempt-box">
+
+    Attempted
 
         <span id="attemptCount">
           0
@@ -1787,17 +1797,15 @@ function startFloatingTimer(min){
 
     // warning mode
 
-    if(t <= 300){
+if(t <= 300){
 
-      document
-        .querySelector(
-          ".floating-timer"
-        )
-        ?.classList.add(
-          "timer-warning"
-        );
+  document
+    .querySelector(".ultra-timer")
+    ?.classList.add(
+      "timer-warning"
+    );
 
-    }
+}
 
     // auto submit
 
@@ -2950,3 +2958,4 @@ function startCountdown(releaseDate){
   );
 
 }
+
