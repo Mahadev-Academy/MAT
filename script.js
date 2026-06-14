@@ -1388,52 +1388,55 @@ function startTest(dur){
 
     <!-- TOP BAR -->
 
-<div class="test-topbar">
+<!-- FIXED PANEL START -->
 
-  <div>
+<div class="sticky-nav-panel">
 
-    <div class="test-mini-title">
-      🚀 Live Test
-    </div>
+  <!-- ROW 1 : LIVE + TIMER + ATTEMPTED -->
 
-    <div class="test-main-title">
-      ${currentTest}
-    </div>
+  <div class="test-topbar">
 
-  </div>
+    <div>
 
-  <div class="ultra-timer">
+      <div class="test-mini-title">
+        🚀 Live Test
+      </div>
 
-    <span class="live-ping"></span>
-
-    <span class="live-text">
-      LIVE
-    </span>
-
-    <span id="floatingTimerText">
-      ${dur}:00
-    </span>
-
-  </div>
-
-  <div class="attempt-box">
-
-    Attempted
-
-        <span id="attemptCount">
-          0
-        </span>
-
-        / ${globalQuestions.length}
-
+      <div class="test-main-title">
+        ${currentTest}
       </div>
 
     </div>
 
-    <!-- PROGRESS -->
-<!-- QUESTION PALETTE + ACTIONS -->
+    <div class="ultra-timer">
 
-<div class="sticky-nav-panel">
+      <span class="live-ping"></span>
+
+      <span class="live-text">
+        LIVE
+      </span>
+
+      <span id="floatingTimerText">
+        ${dur}:00
+      </span>
+
+    </div>
+
+    <div class="attempt-box">
+
+      Attempted
+
+      <span id="attemptCount">
+        0
+      </span>
+
+      / ${globalQuestions.length}
+
+    </div>
+
+  </div>
+
+  <!-- ROW 2 : QUESTION NUMBERS -->
 
   <div class="question-nav">
 
@@ -1451,6 +1454,8 @@ function startTest(dur){
     `).join('')}
 
   </div>
+
+  <!-- ROW 3 : ACTION BUTTONS -->
 
   <div class="question-actions">
 
@@ -1473,17 +1478,22 @@ function startTest(dur){
   </div>
 
 </div>
-    <div class="progress-wrap">
 
-      <div
-        id="progressBar"
-        class="premium-progress">
+<!-- FIXED PANEL END -->
 
-      </div>
+<!-- PROGRESS -->
 
-    </div>
+<div class="progress-wrap">
 
-  `;
+  <div
+    id="progressBar"
+    class="premium-progress">
+
+  </div>
+
+</div>
+
+`;
 
   for(let i=0;i<globalQuestions.length;i++){
 
@@ -2839,7 +2849,15 @@ function goToQuestion(index){
     behavior:"smooth",
     block:"start"
   });
+document
+.getElementById(`nav-${index}`)
+?.scrollIntoView({
 
+  behavior:"smooth",
+  inline:"center",
+  block:"nearest"
+
+});
 }
 window.addEventListener("scroll", () => {
 
@@ -2855,33 +2873,51 @@ window.addEventListener("scroll", () => {
     const rect =
       el.getBoundingClientRect();
 
-    if(
-      rect.top < 250 &&
-      rect.bottom > 250
-    ){
+if(
+  rect.top < 250 &&
+  rect.bottom > 250
+){
 
-      currentQuestionIndex =
-        index;
+  if(currentQuestionIndex !== index){
 
-      document
-        .querySelectorAll(
-          ".nav-dot"
-        )
-        .forEach(dot =>
-          dot.classList.remove(
-            "nav-active"
-          )
-        );
+    currentQuestionIndex =
+      index;
 
-      document
-        .getElementById(
-          `nav-${index}`
-        )
-        ?.classList.add(
+    document
+      .querySelectorAll(
+        ".nav-dot"
+      )
+      .forEach(dot =>
+        dot.classList.remove(
           "nav-active"
-        );
+        )
+      );
 
-    }
+    document
+      .getElementById(
+        `nav-${index}`
+      )
+      ?.classList.add(
+        "nav-active"
+      );
+
+    document
+      .getElementById(
+        `nav-${index}`
+      )
+      ?.scrollIntoView({
+
+        behavior:"smooth",
+
+        inline:"center",
+
+        block:"nearest"
+
+      });
+
+  }
+
+}
 
   });
 
