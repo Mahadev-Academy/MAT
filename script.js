@@ -776,6 +776,157 @@ Continue your preparation journey
 </div>
 </div>   <!-- heading container close -->
 </div>   <!-- flex container close -->
+`;
+
+/* =========================
+   LIVE TESTS
+========================= */
+
+for(let i=0;i<tests.length;i++){
+
+  const t = tests[i];
+
+  if(
+    String(t.class) === String(window.studentClass) ||
+    String(t.class).toUpperCase() === "ALL"
+  ){
+
+    totalVisibleTests++;
+
+    const isDone =
+      attempted &&
+      attempted[t.testId];
+
+    html += `
+
+<div class="premium-upcoming-card">
+
+<div class="premium-upcoming-top">
+
+  <div>
+
+    <div class="premium-label">
+      🔥 LIVE TEST
+    </div>
+
+    <div class="premium-test-title">
+      ${t.testName}
+    </div>
+
+  </div>
+
+  <div class="premium-live-badge">
+    🟢 LIVE NOW
+  </div>
+
+</div>
+
+<div class="premium-divider"></div>
+
+<div class="premium-info-grid">
+
+  <div class="info-box">
+    <div class="info-icon">📅</div>
+    <div>
+      <div class="info-label">Date</div>
+      <div class="info-value">
+        ${new Date(t.releaseDate)
+          .toLocaleDateString(
+            "en-IN",
+            {
+              day:"2-digit",
+              month:"short",
+              year:"numeric"
+            }
+          )}
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-icon">⏰</div>
+    <div>
+      <div class="info-label">Time</div>
+      <div class="info-value">
+        11:00 AM
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-icon">📖</div>
+    <div>
+      <div class="info-label">Questions</div>
+      <div class="info-value">
+        50 MCQs
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-icon">⏳</div>
+    <div>
+      <div class="info-label">Duration</div>
+      <div class="info-value">
+        ${t.duration} Min
+      </div>
+    </div>
+  </div>
+
+</div>
+
+${
+  isDone
+  ? `
+    <div style="
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+    ">
+
+      <div
+        class="unlock-banner"
+        style="
+          flex:1;
+          margin:0;
+        ">
+        ✅ Completed
+      </div>
+
+      <button
+        class="analysis-btn"
+        style="
+          flex:1;
+          width:auto;
+        "
+        onclick="openAnalysis('${t.testId}')">
+
+        📊 Analysis
+
+      </button>
+
+    </div>
+  `
+  : `
+    <div
+      class="unlock-banner"
+      style="cursor:pointer"
+      onclick="showInstructions('${t.testId}',${t.duration})">
+
+      🚀 Start Test
+
+    </div>
+  `
+}
+
+</div>
+
+`;
+
+  }
+}
+
+html += `
 
 ${upcomingTests.map(upcoming => {
 
@@ -955,6 +1106,11 @@ if(submitted){
 }).join("")}
 
 `;
+
+console.log("LIVE TESTS =", tests);
+console.log("CLASS =", window.studentClass);
+console.log("HTML LENGTH =", html.length);
+
 app.innerHTML = html;
 
 if(upcomingTests.length){
