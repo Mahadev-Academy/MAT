@@ -1749,16 +1749,42 @@ button, .option{
     0 8px 20px rgba(0,0,0,.08);
 
 }
+.premium-live-badge.locked{
+  border:1px solid rgba(148,163,184,.35);
+  box-shadow:none;
+}
+
+.premium-live-badge.locked .live-text{
+  color:#cbd5e1;
+}
+
+.premium-live-badge.locked .live-dot{
+  display:none;
+}
 .test-topbar{
   position:relative;
 }
 
 .question-nav{
+
+  display:flex;
+
+  gap:10px;
+
   overflow-x:auto;
+
   overflow-y:hidden;
+
   white-space:nowrap;
-  scrollbar-width:none;
+
   scroll-behavior:smooth;
+
+  scrollbar-width:none;
+
+  -webkit-overflow-scrolling:touch;
+
+  padding:4px 8px;
+
 }
 
 .question-nav::-webkit-scrollbar{
@@ -2574,8 +2600,9 @@ font-size:22px;
 
 
 
-
 <script src="script.js"></script>
+
+
 
 
 
