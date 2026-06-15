@@ -633,9 +633,6 @@ fetch(`${API}?action=dashboard&studentId=${studentId}`)
 
   const upcomingTests = data.upcoming || [];
 
-  // बाकी code
-
-  const rendered = new Set();
  let totalVisibleTests = 0;
   let html = `
 
@@ -1026,6 +1023,7 @@ if(submitted){
 
 <div class="premium-upcoming-card">
 
+
 <div class="premium-upcoming-top">
 
   <div>
@@ -1044,17 +1042,45 @@ if(submitted){
 
   </div>
 
-  <div class="premium-live-badge">
-    ${
-      upcoming.isLive
-        ? "🟢 LIVE NOW"
-        : "⏳ LIVE SOON"
-    }
-  </div>
+  ${(() => {
+
+    const now = new Date();
+
+    const currentMinutes =
+      now.getHours() * 60 + now.getMinutes();
+
+    const isLive =
+      currentMinutes >= 660 &&
+      currentMinutes < 1260;
+
+    return `
+      <div class="premium-live-badge ${isLive ? 'live' : 'locked'}">
+
+        <div class="live-content">
+
+          ${
+            isLive
+              ? `
+                <span class="live-dot"></span>
+                <span class="live-text">LIVE</span>
+              `
+              : `
+                <span style="font-size:18px">🔒</span>
+                <span class="live-text">LOCKED</span>
+              `
+          }
+
+        </div>
+
+      </div>
+    `;
+
+  })()}
 
 </div>
 
-  <div class="premium-divider"></div>
+
+<div class="premium-divider"></div>
 
   <div class="premium-info-grid">
 
@@ -2994,4 +3020,3 @@ function startCountdown(releaseDate){
   );
 
 }
-
