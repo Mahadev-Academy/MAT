@@ -14,6 +14,23 @@ let visitedQuestions = new Set();
 let currentQuestionIndex = 0;
 let previousPage = null;
 
+function enableTestMode(){
+  document.body.classList.add("test-mode");
+}
+
+function disableTestMode(){
+  document.body.classList.remove("test-mode");
+}
+
+async function enterFullscreen(){
+
+  const el = document.documentElement;
+
+  if(el.requestFullscreen){
+    await el.requestFullscreen();
+  }
+}
+
 window.addEventListener(
   "DOMContentLoaded",
   () => {
@@ -857,7 +874,7 @@ for(let i=0;i<tests.length;i++){
     <div>
       <div class="info-label">Time</div>
       <div class="info-value">
-        11:00 AM
+        9:00 AM
       </div>
     </div>
   </div>
@@ -1108,7 +1125,7 @@ if(submitted){
       <div>
         <div class="info-label">Time</div>
         <div class="info-value">
-          11:00 AM
+          9:00 AM
         </div>
       </div>
     </div>
@@ -1412,55 +1429,37 @@ function startTest(dur){
 
   <div class="premium-test-page">
 
-    <!-- TOP BAR -->
-
-<!-- FIXED PANEL START -->
-
 <div class="sticky-nav-panel">
-
-  <!-- ROW 1 : LIVE + TIMER + ATTEMPTED -->
 
   <div class="test-topbar">
 
-    <div>
+  <div class="ultra-timer">
 
-      <div class="test-mini-title">
-        🚀 Live Test
-      </div>
+    <span class="live-ping"></span>
 
-      <div class="test-main-title">
-        ${currentTest}
-      </div>
+    <span class="live-text">
+      LIVE
+    </span>
 
-    </div>
-
-    <div class="ultra-timer">
-
-      <span class="live-ping"></span>
-
-      <span class="live-text">
-        LIVE
-      </span>
-
-      <span id="floatingTimerText">
-        ${dur}:00
-      </span>
-
-    </div>
-
-    <div class="attempt-box">
-
-      Attempted
-
-      <span id="attemptCount">
-        0
-      </span>
-
-      / ${globalQuestions.length}
-
-    </div>
+    <span id="floatingTimerText">
+      ${dur}:00
+    </span>
 
   </div>
+
+  <div class="attempt-box">
+
+    Attempted
+
+    <span id="attemptCount">
+      0
+    </span>
+
+    / ${globalQuestions.length}
+
+  </div>
+
+</div>
 
   <!-- ROW 2 : QUESTION NUMBERS -->
 
@@ -1611,8 +1610,9 @@ function startTest(dur){
   `;
 
   app.innerHTML = html;
+  enableTestMode();
+enterFullscreen();
 visitedQuestions.add(0);
-
 currentQuestionIndex = 0;
 
 document
@@ -1864,7 +1864,7 @@ if(t <= 300){
 let submitting = false;
 
 async function submitTest() {
-
+  disableTestMode();
   if (submitting) return;
 
   submitting = true;
@@ -2726,7 +2726,7 @@ function manageCountdownVisibility(){
 
   const nextRelease = new Date();
 
-  nextRelease.setHours(11,00,0,0);
+  nextRelease.setHours(9,0,0,0);
 
   if(now >= nextRelease){
 
@@ -2793,7 +2793,7 @@ function startDailyCountdown(){
     let next = new Date();
 
     next.setHours(
-      11,0,0,0
+      9,0,0,0
     );
 
     if(now >= next){
@@ -2967,7 +2967,7 @@ function startCountdown(releaseDate){
       new Date(releaseDate);
 
     release.setHours(
-      11,0,0,0
+      9,0,0,0
     );
 
     const diff =
@@ -3020,3 +3020,87 @@ function startCountdown(releaseDate){
   );
 
 }
+document.addEventListener("contextmenu", e => {
+  if(document.body.classList.contains("test-mode")){
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("copy", e => {
+  if(document.body.classList.contains("test-mode")){
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("cut", e => {
+  if(document.body.classList.contains("test-mode")){
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+
+  if(
+    document.hidden &&
+    document.body.classList.contains("test-mode")
+  ){
+
+    alert(
+      "Test closed because you switched tabs."
+    );
+
+    submitTest();
+  }
+
+});
+
+document.addEventListener(
+  "fullscreenchange",
+  () => {
+
+    if(
+      !document.fullscreenElement &&
+      document.body.classList.contains("test-mode")
+    ){
+
+      alert(
+        "Fullscreen exited. Test submitted."
+      );
+
+      submitTest();
+    }
+  }
+);
+
+document.addEventListener("selectstart", e => {
+
+  if(document.body.classList.contains("test-mode")){
+    e.preventDefault();
+  }
+
+});
+
+document.addEventListener("dragstart", e => {
+
+  if(document.body.classList.contains("test-mode")){
+    e.preventDefault();
+  }
+
+});
+
+document.addEventListener("keydown", e => {
+
+  if(!document.body.classList.contains("test-mode")){
+    return;
+  }
+
+  const key = e.key.toLowerCase();
+
+  if(
+    e.ctrlKey &&
+    ["a","c","x","u","s","p"].includes(key)
+  ){
+    e.preventDefault();
+  }
+
+});
