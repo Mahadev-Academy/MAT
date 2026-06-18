@@ -7,6 +7,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+  .countdown-card{
+  transition: all .4s ease;
+}
+
+.countdown-card.warning{
+
+  background: linear-gradient(
+    135deg,
+    #7f1d1d,
+    #dc2626,
+    #f97316
+  ) !important;
+
+  box-shadow:
+    0 0 20px rgba(239,68,68,.35),
+    0 12px 35px rgba(249,115,22,.25);
+
+  animation: countdownPulse 1.8s infinite;
+}
+
+@keyframes countdownPulse{
+
+  0%,100%{
+    transform: scale(1);
+  }
+
+  50%{
+    transform: scale(1.02);
+  }
+
+}
   .premium-test-page{
   position:relative;
   padding-bottom:120px;
@@ -2560,8 +2591,8 @@ body.test-mode *{
 
 
 
-<script src="script.js"></script>
 
+<script src="script.js"></script>
 
 
 
