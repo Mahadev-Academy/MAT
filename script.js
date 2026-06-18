@@ -719,7 +719,10 @@ fetch(`${API}?action=dashboard&studentId=${studentId}`)
  
 
 
-<div id="countdownWrapper" style="
+<div
+  id="countdownWrapper"
+  class="countdown-card"
+  style="
   margin-top:22px;
   background:linear-gradient(135deg,#0f172a,#1e293b);
   border-radius:20px;
@@ -1063,12 +1066,15 @@ if(submitted){
 
     const now = new Date();
 
-    const currentMinutes =
-      now.getHours() * 60 + now.getMinutes();
+const release = new Date(upcoming.release);
 
-    const isLive =
-      currentMinutes >= 660 &&
-      currentMinutes < 1260;
+const endTime = new Date(release);
+
+endTime.setHours(21, 0, 0, 0);
+
+const isLive =
+  now >= release &&
+  now < endTime;
 
     return `
       <div class="premium-live-badge ${isLive ? 'live' : 'locked'}">
@@ -2805,6 +2811,25 @@ function startDailyCountdown(){
     }
 
     const diff = next - now;
+    const card =
+  document.getElementById(
+    "countdownWrapper"
+  );
+
+// 30 minutes = 1800000 milliseconds
+if(diff <= 1800000){
+
+  card?.classList.add(
+    "warning"
+  );
+
+}else{
+
+  card?.classList.remove(
+    "warning"
+  );
+
+}
 
     if(diff <= 0){
 
@@ -2965,10 +2990,6 @@ function startCountdown(releaseDate){
 
     const release =
       new Date(releaseDate);
-
-    release.setHours(
-      9,0,0,0
-    );
 
     const diff =
       release - now;
