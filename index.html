@@ -2567,6 +2567,135 @@ body.test-mode *{
 
   -webkit-touch-callout: none !important;
 }
+.exam-section{
+  margin-top:32px;
+}
+
+.exam-heading h2{
+  margin:0;
+  font-size:28px;
+  font-weight:800;
+  color:#111827;
+}
+
+.exam-heading p{
+  margin:6px 0 20px;
+  color:#6b7280;
+}
+
+.exam-grid{
+  display:grid;
+  gap:18px;
+}
+
+.exam-card{
+  background:#ffffff;
+  border-radius:24px;
+  padding:20px;
+  border:1px solid #e5e7eb;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.08);
+
+  transition:.3s;
+}
+
+.exam-card:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 20px 40px rgba(15,23,42,.12);
+}
+
+.exam-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.exam-name{
+  font-size:20px;
+  font-weight:800;
+  color:#111827;
+}
+
+.days-badge{
+  padding:8px 14px;
+  border-radius:999px;
+  background:#dcfce7;
+  color:#15803d;
+  font-size:12px;
+  font-weight:800;
+}
+
+.exam-detail{
+  margin-top:16px;
+  color:#4b5563;
+
+  display:flex;
+  justify-content:space-between;
+}
+
+.exam-detail span{
+  font-weight:700;
+  color:#111827;
+}
+
+.syllabus-btn{
+  display:block;
+  text-align:center;
+  margin-top:20px;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  background:linear-gradient(
+    135deg,
+    #2563eb,
+    #4f46e5
+  );
+
+  color:white;
+  font-weight:700;
+}
+
+.urgent-card{
+
+  border:2px solid #ef4444;
+
+  background:linear-gradient(
+    135deg,
+    #fff1f2,
+    #ffffff
+  );
+
+  animation:pulseCard 2s infinite;
+}
+
+.days-badge.danger{
+  background:#ef4444;
+  color:#fff;
+}
+
+@keyframes pulseCard{
+
+  0%{
+    box-shadow:0 0 0 0 rgba(239,68,68,.35);
+  }
+
+  70%{
+    box-shadow:0 0 0 14px rgba(239,68,68,0);
+  }
+
+  100%{
+    box-shadow:0 0 0 0 rgba(239,68,68,0);
+  }
+
+}
 </style>
 </head>
 
@@ -2591,8 +2720,8 @@ body.test-mode *{
 
 
 
-
 <script src="script.js"></script>
+
 
 
 
