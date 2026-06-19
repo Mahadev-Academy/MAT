@@ -649,7 +649,10 @@ fetch(`${API}?action=dashboard&studentId=${studentId}`)
   const attempted = data.attempted;
 
   const upcomingTests = data.upcoming || [];
+  const upcomingExams = data.exams || [];
 
+
+  
  let totalVisibleTests = 0;
   let html = `
 
@@ -1171,6 +1174,8 @@ const isLive =
 console.log("LIVE TESTS =", tests);
 console.log("CLASS =", window.studentClass);
 console.log("HTML LENGTH =", html.length);
+
+html += renderUpcomingExams(upcomingExams);
 
 app.innerHTML = html;
 
@@ -3041,6 +3046,95 @@ function startCountdown(releaseDate){
   );
 
 }
+
+function renderUpcomingExams(exams) {
+
+  if (!exams.length) return "";
+
+  return `
+
+    <div class="exam-section">
+
+      <div class="exam-heading">
+
+        <h2>🗓️ Upcoming Exams</h2>
+
+        <p>
+          Stay ahead with important exam dates
+        </p>
+
+      </div>
+
+      <div class="exam-grid">
+
+        ${exams.map(exam => {
+
+          const urgent = exam.daysLeft <= 10;
+
+          return `
+
+            <div class="exam-card ${urgent ? "urgent-card" : ""}">
+
+              <div class="exam-top">
+
+                <div class="exam-name">
+                  ${exam.examName}
+                </div>
+
+                <div class="days-badge ${urgent ? "danger" : ""}">
+
+                  ${exam.daysLeft} Days Left
+
+                </div>
+
+              </div>
+
+              <div class="exam-detail">
+
+                📝 Apply Before
+
+                <span>
+                  ${formatDate(exam.applyBefore)}
+                </span>
+
+              </div>
+
+              <div class="exam-detail">
+
+                📅 Exam Date
+
+                <span>
+                  ${formatDate(exam.examDate)}
+                </span>
+
+              </div>
+
+              <a
+                href="${exam.syllabusLink}"
+                target="_blank"
+                class="syllabus-btn"
+              >
+
+                📚 View Syllabus
+
+              </a>
+
+            </div>
+
+          `;
+
+        }).join("")}
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+
+
 document.addEventListener("contextmenu", e => {
   if(document.body.classList.contains("test-mode")){
     e.preventDefault();
