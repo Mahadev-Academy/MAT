@@ -3089,25 +3089,20 @@ function renderUpcomingExams(exams) {
 
               </div>
 
-              <div class="exam-detail">
+<div class="exam-info">
+  <span>📝 Apply Before</span>
+  <strong>${formatDate(exam.applyBefore)}</strong>
+</div>
 
-                📝 Apply Before
+<div class="exam-info">
+  <span>🎓 Class Eligibility</span>
+  <strong>${exam.eligibility || "N/A"}</strong>
+</div>
 
-                <span>
-                  ${formatDate(exam.applyBefore)}
-                </span>
-
-              </div>
-
-              <div class="exam-detail">
-
-                📅 Exam Date
-
-                <span>
-                  ${formatDate(exam.examDate)}
-                </span>
-
-              </div>
+<div class="exam-info">
+  <span>📅 Exam Date</span>
+  <strong>${formatDate(exam.examDate)}</strong>
+</div>
 
               <a
                 href="${exam.syllabusLink}"
@@ -3115,7 +3110,7 @@ function renderUpcomingExams(exams) {
                 class="syllabus-btn"
               >
 
-                📚 View Syllabus
+                📚 View Exam Syllabus & Pattern
 
               </a>
 
